@@ -1,3 +1,4 @@
+CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 我不是原作者，任何代码问题别来我这边提！谢谢！
 
 ### CreamInstaller：自动 DLC 解锁安装程序和配置生成器
