@@ -34,7 +34,7 @@
 1. 单击[此处](https://github.com/lengkonglovelife/CreamInstaller-CHS/releases/tag/release)从[GitHub](https://github.com/lengkonglovelife/CreamInstaller-CHS)下载最新版本 ）。
 2. 将 ZIP 文件中的可执行文件解压到计算机上所需的任何位置。 *它是完全独立的。*
 
-如果程序似乎无法启动，请尝试下载并安装 [.NET Desktop Runtime 8.0.4](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0）
+如果程序似乎无法启动，请尝试下载并安装 [.NET Desktop Runtime 8.0.4](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0 ）
 并重新启动计算机。 请注意，该程序目前仅支持 Windows 8+ 64 位计算机，因为 .NET 7+ 不再支持 Windows 7。
 
 ---
