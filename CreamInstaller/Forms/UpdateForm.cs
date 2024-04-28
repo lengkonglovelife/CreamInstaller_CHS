@@ -135,10 +135,10 @@ internal sealed partial class UpdateForm : CustomForm
         IProgress<int> iProgress = progress;
         progress.ProgressChanged += delegate(object _, int _progress)
         {
-            progressLabel.Text = $"Updating . . . {_progress}%";
+            progressLabel.Text = $"更新中 . . . {_progress}%";
             progressBar.Value = _progress;
         };
-        progressLabel.Text = "Updating . . . ";
+        progressLabel.Text = "更新中 . . . ";
         cancellation = new();
         bool success = true;
         PackagePath.DeleteFile(true);
@@ -183,7 +183,7 @@ internal sealed partial class UpdateForm : CustomForm
         }
         catch (Exception ex)
         {
-            retry = ex.HandleException(this, Program.Name + " encountered an exception while updating");
+            retry = ex.HandleException(this, Program.Name + " 更新时发生错误");
             success = false;
         }
 

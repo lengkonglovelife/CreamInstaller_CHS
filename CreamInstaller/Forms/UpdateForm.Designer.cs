@@ -31,7 +31,7 @@ namespace CreamInstaller.Forms
             progressLabel.Name = "progressLabel";
             progressLabel.Size = new System.Drawing.Size(218, 15);
             progressLabel.TabIndex = 0;
-            progressLabel.Text = "Checking for updates . . .";
+            progressLabel.Text = "正在检查更新 . . .";
             // 
             // updateButton
             // 
@@ -42,7 +42,7 @@ namespace CreamInstaller.Forms
             updateButton.Name = "updateButton";
             updateButton.Size = new System.Drawing.Size(75, 23);
             updateButton.TabIndex = 2;
-            updateButton.Text = "Update";
+            updateButton.Text = "更新";
             updateButton.UseVisualStyleBackColor = true;
             // 
             // ignoreButton
@@ -54,7 +54,7 @@ namespace CreamInstaller.Forms
             ignoreButton.Name = "ignoreButton";
             ignoreButton.Size = new System.Drawing.Size(75, 23);
             ignoreButton.TabIndex = 1;
-            ignoreButton.Text = "Ignore";
+            ignoreButton.Text = "跳过";
             ignoreButton.UseVisualStyleBackColor = true;
             ignoreButton.Click += OnIgnore;
             // 
@@ -92,7 +92,7 @@ namespace CreamInstaller.Forms
             MinimizeBox = false;
             Name = "UpdateForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "UpdateForm";
+            Text = "更新日志";
             Load += OnLoad;
             ResumeLayout(false);
         }

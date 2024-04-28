@@ -65,9 +65,9 @@ internal sealed partial class InstallForm : CustomForm
         }
 
         UpdateUser(
-            $"{(uninstalling ? "卸载" : "安装")}" + $" {(uninstalling ? "from" : "for")} " +
+            $"{(uninstalling ? "卸载" : "安装")}" + $" {(uninstalling ? "从" : "到")} " +
             selection.Name
-            + $" with root directory \"{selection.RootDirectory}\" . . . ", LogTextBox.Operation);
+            + $" 目录 \"{selection.RootDirectory}\" . . . ", LogTextBox.Operation);
         IEnumerable<string> invalidDirectories = (await selection.RootDirectory.GetExecutables())
             ?.Where(d => selection.ExecutableDirectories.All(s => s.directory != Path.GetDirectoryName(d.path)))
             .Select(d => Path.GetDirectoryName(d.path));
@@ -131,7 +131,7 @@ internal sealed partial class InstallForm : CustomForm
                     UpdateUser(
                         $"{(uninstallProxy ? "卸载" : "安装")} SmokeAPI" +
                         $" {(uninstallProxy ? "从" : "安装")} " + selection.Name
-                        + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);
+                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
                     if (uninstallProxy)
                         await SmokeAPI.Uninstall(directory, this);
                     else
