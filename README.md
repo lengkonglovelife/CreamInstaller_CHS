@@ -2,20 +2,19 @@ CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 
 我不是原作者，任何代码问题别来我这边提！谢谢！
 
-### CreamInstaller：自动 DLC 解锁安装程序和配置生成器
-
+### CreamInstaller：一个DLC解锁器。
 ![程序预览图](https://img2.imgtp.com/2024/04/28/yGVho5it.png)
 
-###### **注意：** 这只是预览图像； 这不是支持的游戏或配置的列表！
+###### **注意：** 这只是预览图； 这不是支持的游戏或配置的列表！
 
-##### 该程序使用最新版本的 [Koaloader](https://github.com/acidicoala/Koaloader)、[SmokeAPI](https://github.com/acidicoala/SmokeAPI)、[ScreamAPI]( https://github.com/acidicoala/ScreamAPI)、[Uplay R1 Unlocker](https://github.com/acidicoala/UplayR1Unlocker) 和 [Uplay R2 Unlocker](https://github.com/acidicoala/UplayR2Unlocker) ，全部由精彩的 [acidicoala](https://github.com/acidicoala) 提供，并且全部从上面的帖子下载并嵌入到程序本身中； 您无需进一步下载！
+##### 该程序使用最新版本的 [Koaloader](https://github.com/acidicoala/Koaloader)、[SmokeAPI](https://github.com/acidicoala/SmokeAPI)、[ScreamAPI]( https://github.com/acidicoala/ScreamAPI)、[Uplay R1 Unlocker](https://github.com/acidicoala/UplayR1Unlocker) 和 [Uplay R2 Unlocker](https://github.com/acidicoala/UplayR2Unlocker) ，全部由 [acidicoala](https://github.com/acidicoala) 提供，并且全部从上面的帖子下载并嵌入到软件； 您无需进一步下载！
 ---
 ＃＃＃＃ 描述：
-自动查找用户计算机上所有已安装的 Steam、Epic 和 Ubisoft 游戏及其各自的 DLC 相关 DLL 位置，
-解析SteamCMD、Steam Store和Epic Games Store以获取用户选择的游戏的DLC，然后提供非常简单的图形界面
-利用收集到的信息来维护 DLC 解锁器。
+自动查找用户计算机上所有已安装的 Steam、Epic 和 Ubisoft 游戏与DLC,相关DLL 位置，
+解析SteamCMD、Steam Store和Epic Games Store以获取用户选择的游戏的DLC，提供简单的图形交互菜单
+利用解析到的信息来维护 DLC 解锁器。
 
-该程序的主要功能是**自动生成并安装 DLC 解锁器**
+该程序的主要功能是**自动检测可解锁的DLC并安装可用于 DLC 解锁文件**
 用户选择的游戏和 DLC； 但是，通过使用**右键单击上下文菜单**，用户还可以：
 * 自动修复Paradox Launcher
 * 在记事本中打开解析的 Steam 和/或 Epic Games appinfo(++)
