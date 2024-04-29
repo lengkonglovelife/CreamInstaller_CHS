@@ -58,9 +58,9 @@ internal static class ParadoxLauncher
             return false;
         using DialogForm dialogForm = new(form);
         return dialogForm.Show(SystemIcons.Warning,
-            "WARNING: There are no scanned games with DLC that can be added to the Paradox Launcher!"
-            + "\n\nInstalling DLC unlockers for the Paradox Launcher alone can cause existing configurations to be deleted!",
-            "Ignore", "Cancel",
+            "警告：没有扫描到,有带DLC的游戏可以添加到 Paradox Launcher!"
+            + "\n\n单为Paradox Launcher安装 DLC Unlocker 可能会导致现在的配置被删除！",
+            "跳过", "取消",
             "Paradox Launcher") != DialogResult.OK;
     }
 
@@ -127,9 +127,9 @@ internal static class ParadoxLauncher
                 {
                     steamOriginalSdk32.WriteResource(api32);
                     if (installForm is not null)
-                        installForm.UpdateUser("Corrected Steamworks: " + api32, LogTextBox.Action);
+                        installForm.UpdateUser("已修改 Steamworks: " + api32, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("Corrected Steamworks: " + api32);
+                        dialogText.AppendLine("已修改 Steamworks: " + api32);
                     neededRepair = true;
                 }
 
@@ -137,9 +137,9 @@ internal static class ParadoxLauncher
                 {
                     steamOriginalSdk64.WriteResource(api64);
                     if (installForm is not null)
-                        installForm.UpdateUser("Corrected Steamworks: " + api64, LogTextBox.Action);
+                        installForm.UpdateUser("已修改 Steamworks: " + api64, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("Corrected Steamworks: " + api64);
+                        dialogText.AppendLine("已修改 Steamworks: " + api64);
                     neededRepair = true;
                 }
 
@@ -150,9 +150,9 @@ internal static class ParadoxLauncher
                 {
                     epicOriginalSdk32.WriteResource(api32);
                     if (installForm is not null)
-                        installForm.UpdateUser("Corrected Epic Online Services: " + api32, LogTextBox.Action);
+                        installForm.UpdateUser("已修改 Epic Online Services: " + api32, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("Corrected Epic Online Services: " + api32);
+                        dialogText.AppendLine("已修改 Epic Online Services: " + api32);
                     neededRepair = true;
                 }
 
@@ -160,9 +160,9 @@ internal static class ParadoxLauncher
                 {
                     epicOriginalSdk64.WriteResource(api64);
                     if (installForm is not null)
-                        installForm.UpdateUser("Corrected Epic Online Services: " + api64, LogTextBox.Action);
+                        installForm.UpdateUser("已修改 Epic Online Services: " + api64, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("Corrected Epic Online Services: " + api64);
+                        dialogText.AppendLine("已修改 Epic Online Services: " + api64);
                     neededRepair = true;
                 }
 
@@ -175,10 +175,10 @@ internal static class ParadoxLauncher
                 if (neededRepair)
                 {
                     if (installForm is not null)
-                        installForm.UpdateUser("Paradox Launcher successfully repaired!", LogTextBox.Action);
+                        installForm.UpdateUser("Paradox Launcher 修改成功！", LogTextBox.Action);
                     else
                     {
-                        dialogText.AppendLine("\nParadox Launcher successfully repaired!");
+                        dialogText.AppendLine("\nParadox Launcher 修改成功");
                         _ = dialogForm.Show(form.Icon, dialogText.ToString(), customFormText: "Paradox Launcher");
                     }
 
@@ -186,9 +186,9 @@ internal static class ParadoxLauncher
                 }
 
                 if (installForm is not null)
-                    installForm.UpdateUser("Paradox Launcher did not need to be repaired.", LogTextBox.Success);
+                    installForm.UpdateUser("Paradox Launcher 不需要修改。", LogTextBox.Success);
                 else
-                    _ = dialogForm.Show(SystemIcons.Information, "Paradox Launcher does not need to be repaired.",
+                    _ = dialogForm.Show(SystemIcons.Information, "Paradox Launcher 不需要修改。",
                         customFormText: "Paradox Launcher");
                 return RepairResult.Unnecessary;
             }
@@ -197,19 +197,19 @@ internal static class ParadoxLauncher
         if (Program.Canceled)
         {
             _ = form is InstallForm
-                ? throw new CustomMessageException("Repair failed! The operation was canceled.")
-                : dialogForm.Show(SystemIcons.Error, "Paradox Launcher repair failed! The operation was canceled.",
+                ? throw new CustomMessageException("修改失败！操作中止")
+                : dialogForm.Show(SystemIcons.Error, "修改失败！操作中止",
                     customFormText: "Paradox Launcher");
             return RepairResult.Failure;
         }
 
         _ = form is InstallForm
             ? throw new CustomMessageException(
-                "Repair failed! " + "An original Steamworks and/or Epic Online Services file could not be found. "
-                                  + "You will likely have to reinstall Paradox Launcher to fix this issue.")
+                "Repair failed! " + "无法找到原始 Steamworks 或 Epic Online Services 文件。 "
+                                  + "可能需要重新安装 Paradox Launcher 才能解决此问题。")
             : dialogForm.Show(SystemIcons.Error,
-                "Paradox Launcher repair failed!" + "\n\nAn original Steamworks and/or Epic Online Services file could not be found."
-                                                  + "\nYou will likely have to reinstall Paradox Launcher to fix this issue.",
+                "Paradox Launcher repair failed!" + "\n\n无法找到原始 Steamworks 或 Epic Online Services 文件"
+                                                  + "\n可能需要重新安装 Paradox Launcher 才能解决此问题。",
                 customFormText: "Paradox Launcher");
         return RepairResult.Failure;
     }

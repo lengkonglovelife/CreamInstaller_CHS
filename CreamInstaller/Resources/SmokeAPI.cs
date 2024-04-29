@@ -55,7 +55,7 @@ internal static class SmokeAPI
         if (old_config.FileExists())
         {
             old_config.DeleteFile();
-            installForm?.UpdateUser($"Deleted old configuration: {Path.GetFileName(old_config)}", LogTextBox.Action,
+            installForm?.UpdateUser($"删除旧配置: {Path.GetFileName(old_config)}", LogTextBox.Action,
                 false);
         }
 
@@ -77,7 +77,7 @@ internal static class SmokeAPI
         else if (config.FileExists())
         {
             config.DeleteFile();
-            installForm?.UpdateUser($"Deleted unnecessary configuration: {Path.GetFileName(config)}", LogTextBox.Action,
+            installForm?.UpdateUser($"删除不需要的配置: {Path.GetFileName(config)}", LogTextBox.Action,
                 false);
         }
     }
@@ -102,7 +102,7 @@ internal static class SmokeAPI
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"    \"{selectionDlc.Id}\": \"locked\"{(pair.Equals(lastOverrideDlc) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"Added locked DLC to SmokeAPI.config.json with appid {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"将未解锁的DLC记录到 SmokeAPI.config.json {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
@@ -128,7 +128,7 @@ internal static class SmokeAPI
                     writer.WriteLine(
                         $"        \"{selectionDlc.Id}\": \"{selectionDlc.Name}\"{(pair.Equals(lastInjectDlc) ? "" : ",")}");
                     installForm?.UpdateUser(
-                        $"Added extra DLC to SmokeAPI.config.json with appid {selectionDlc.Id} ({selectionDlc.Name})",
+                        $"输入appid将额外的DLC添加到SmokeAPI.config.json 中 {selectionDlc.Id} ({selectionDlc.Name})",
                         LogTextBox.Action,
                         false);
                 }
@@ -156,7 +156,7 @@ internal static class SmokeAPI
                         writer.WriteLine(
                             $"        \"{selectionDlc.Id}\": \"{selectionDlc.Name}\"{(extraPair.Equals(lastExtraAppDlc) ? "" : ",")}");
                         installForm?.UpdateUser(
-                            $"Added extra DLC to SmokeAPI.config.json with appid {selectionDlc.Id} ({selectionDlc.Name})",
+                            $"输入appid将额外的DLC添加到SmokeAPI.config.json {selectionDlc.Id} ({selectionDlc.Name})",
                             LogTextBox.Action, false);
                     }
 
@@ -181,7 +181,7 @@ internal static class SmokeAPI
             if (oldConfig.FileExists())
             {
                 oldConfig.DeleteFile();
-                installForm?.UpdateUser($"Deleted old CreamAPI configuration: {Path.GetFileName(oldConfig)}",
+                installForm?.UpdateUser($"删除旧的CreamAPI配置: {Path.GetFileName(oldConfig)}",
                     LogTextBox.Action, false);
             }
 
@@ -193,12 +193,12 @@ internal static class SmokeAPI
                 if (api32.FileExists())
                 {
                     api32.DeleteFile(true);
-                    installForm?.UpdateUser($"Deleted SmokeAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
+                    installForm?.UpdateUser($"删除 SmokeAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
                 }
 
                 api32_o.MoveFile(api32!);
                 installForm?.UpdateUser(
-                    $"Restored Steamworks: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api32)}", LogTextBox.Action,
+                    $"恢复 Steamworks: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api32)}", LogTextBox.Action,
                     false);
             }
 
@@ -207,12 +207,12 @@ internal static class SmokeAPI
                 if (api64.FileExists())
                 {
                     api64.DeleteFile(true);
-                    installForm?.UpdateUser($"Deleted SmokeAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
+                    installForm?.UpdateUser($"删除 SmokeAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
                 }
 
                 api64_o.MoveFile(api64!);
                 installForm?.UpdateUser(
-                    $"Restored Steamworks: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api64)}", LogTextBox.Action,
+                    $"恢复 Steamworks: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api64)}", LogTextBox.Action,
                     false);
             }
 
@@ -221,32 +221,32 @@ internal static class SmokeAPI
             if (old_config.FileExists())
             {
                 old_config.DeleteFile();
-                installForm?.UpdateUser($"Deleted configuration: {Path.GetFileName(old_config)}", LogTextBox.Action,
+                installForm?.UpdateUser($"删除配置: {Path.GetFileName(old_config)}", LogTextBox.Action,
                     false);
             }
 
             if (config.FileExists())
             {
                 config.DeleteFile();
-                installForm?.UpdateUser($"Deleted configuration: {Path.GetFileName(config)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除配置: {Path.GetFileName(config)}", LogTextBox.Action, false);
             }
 
             if (cache.FileExists())
             {
                 cache.DeleteFile();
-                installForm?.UpdateUser($"Deleted cache: {Path.GetFileName(cache)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除缓存: {Path.GetFileName(cache)}", LogTextBox.Action, false);
             }
 
             if (old_log.FileExists())
             {
                 old_log.DeleteFile();
-                installForm?.UpdateUser($"Deleted log: {Path.GetFileName(old_log)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除Log: {Path.GetFileName(old_log)}", LogTextBox.Action, false);
             }
 
             if (log.FileExists())
             {
                 log.DeleteFile();
-                installForm?.UpdateUser($"Deleted log: {Path.GetFileName(log)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除Log: {Path.GetFileName(log)}", LogTextBox.Action, false);
             }
         });
 
@@ -258,7 +258,7 @@ internal static class SmokeAPI
             if (oldConfig.FileExists())
             {
                 oldConfig.DeleteFile();
-                installForm?.UpdateUser($"Deleted old CreamAPI configuration: {Path.GetFileName(oldConfig)}",
+                installForm?.UpdateUser($"删除旧的CreamAPI配置: {Path.GetFileName(oldConfig)}",
                     LogTextBox.Action, false);
             }
 
@@ -267,27 +267,27 @@ internal static class SmokeAPI
             if (api32.FileExists() && !api32_o.FileExists())
             {
                 api32.MoveFile(api32_o!, true);
-                installForm?.UpdateUser($"Renamed Steamworks: {Path.GetFileName(api32)} -> {Path.GetFileName(api32_o)}",
+                installForm?.UpdateUser($"重命名 Steamworks: {Path.GetFileName(api32)} -> {Path.GetFileName(api32_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api32_o.FileExists())
             {
                 "SmokeAPI.steam_api.dll".WriteManifestResource(api32);
-                installForm?.UpdateUser($"Wrote SmokeAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"生成 SmokeAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
             }
 
             if (api64.FileExists() && !api64_o.FileExists())
             {
                 api64.MoveFile(api64_o!, true);
-                installForm?.UpdateUser($"Renamed Steamworks: {Path.GetFileName(api64)} -> {Path.GetFileName(api64_o)}",
+                installForm?.UpdateUser($"重命名 Steamworks: {Path.GetFileName(api64)} -> {Path.GetFileName(api64_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api64_o.FileExists())
             {
                 "SmokeAPI.steam_api64.dll".WriteManifestResource(api64);
-                installForm?.UpdateUser($"Wrote SmokeAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"生成 SmokeAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
             }
 
             if (generateConfig)

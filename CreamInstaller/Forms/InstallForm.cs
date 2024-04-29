@@ -150,7 +150,7 @@ internal sealed partial class InstallForm : CustomForm
                     UpdateUser(
                         $"{(uninstallProxy ? "卸载" : "安装")} ScreamAPI" +
                         $" {(uninstallProxy ? "从" : "到")} " + selection.Name
-                        + $" 在目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
                     if (uninstallProxy)
                         await ScreamAPI.Uninstall(directory, this);
                     else
@@ -221,13 +221,13 @@ internal sealed partial class InstallForm : CustomForm
             {
                 await OperateFor(selection);
                 if (Program.Canceled)
-                    throw new CustomMessageException("操作取消.");
-                UpdateUser($"操作成功 {selection.Name}.", LogTextBox.Success);
+                    throw new CustomMessageException("安装取消.");
+                UpdateUser($"安装成功 {selection.Name}.", LogTextBox.Success);
                 _ = activeSelections.Remove(selection);
             }
             catch (Exception exception)
             {
-                UpdateUser($"操作失败 {selection.Name}: " + exception, LogTextBox.Error);
+                UpdateUser($"安装失败 {selection.Name}: " + exception, LogTextBox.Error);
             }
 
             ++completeOperationsCount;
@@ -237,9 +237,9 @@ internal sealed partial class InstallForm : CustomForm
         int activeCount = activeSelections.Count;
         if (activeCount > 0)
             if (activeCount == 1)
-                throw new CustomMessageException($"操作失败 {activeSelections.First().Name}.");
+                throw new CustomMessageException($"安装失败 {activeSelections.First().Name}.");
             else
-                throw new CustomMessageException($" {activeCount} 程序操作失败.");
+                throw new CustomMessageException($" {activeCount} 安装失败.");
     }
 
     private async void Start()
