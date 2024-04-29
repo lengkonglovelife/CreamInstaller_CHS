@@ -7,7 +7,7 @@ CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 
 ###### **注意：** 这只是预览图； 这不是支持的游戏或配置的列表！
 
-##### 该程序使用最新版本的 [Koaloader](https://github.com/acidicoala/Koaloader)、[SmokeAPI](https://github.com/acidicoala/SmokeAPI)、[ScreamAPI]( https://github.com/acidicoala/ScreamAPI)、[Uplay R1 Unlocker](https://github.com/acidicoala/UplayR1Unlocker) 和 [Uplay R2 Unlocker](https://github.com/acidicoala/UplayR2Unlocker) ，全部由 [acidicoala](https://github.com/acidicoala) 提供，并且全部从上面的帖子下载并嵌入到软件； 您无需进一步下载！
+##### 该程序使用最新版本的 [Koaloader](https://github.com/acidicoala/Koaloader)、[SmokeAPI](https://github.com/acidicoala/SmokeAPI)、[ScreamAPI]( https://github.com/acidicoala/ScreamAPI)、[Uplay R1 Unlocker](https://github.com/acidicoala/UplayR1Unlocker) 和 [Uplay R2 Unlocker](https://github.com/acidicoala/UplayR2Unlocker) ，由 [acidicoala](https://github.com/acidicoala) 全部嵌入到本软件； 您无需进一步下载关于我们已经上述提到的项目文件！
 ---
 ＃＃＃＃ 描述：
 自动查找用户计算机上所有已安装的 Steam、Epic 和 Ubisoft 游戏与DLC,相关DLL 位置，
