@@ -46,7 +46,7 @@ namespace CreamInstaller.Forms
             userInfoLabel.Name = "userInfoLabel";
             userInfoLabel.Size = new System.Drawing.Size(760, 15);
             userInfoLabel.TabIndex = 2;
-            userInfoLabel.Text = "Loading . . . ";
+            userInfoLabel.Text = "加载中 . . . ";
             // 
             // acceptButton
             // 
@@ -56,7 +56,7 @@ namespace CreamInstaller.Forms
             acceptButton.Name = "acceptButton";
             acceptButton.Size = new System.Drawing.Size(75, 23);
             acceptButton.TabIndex = 4;
-            acceptButton.Text = "OK";
+            acceptButton.Text = "确定";
             acceptButton.UseVisualStyleBackColor = true;
             acceptButton.Click += OnAccept;
             // 
@@ -68,7 +68,7 @@ namespace CreamInstaller.Forms
             retryButton.Name = "retryButton";
             retryButton.Size = new System.Drawing.Size(75, 23);
             retryButton.TabIndex = 3;
-            retryButton.Text = "Retry";
+            retryButton.Text = "重试";
             retryButton.UseVisualStyleBackColor = true;
             retryButton.Click += OnRetry;
             // 
@@ -79,7 +79,7 @@ namespace CreamInstaller.Forms
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new System.Drawing.Size(75, 23);
             cancelButton.TabIndex = 1;
-            cancelButton.Text = "Cancel";
+            cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += OnCancel;
             // 
@@ -103,7 +103,7 @@ namespace CreamInstaller.Forms
             reselectButton.Name = "reselectButton";
             reselectButton.Size = new System.Drawing.Size(200, 23);
             reselectButton.TabIndex = 2;
-            reselectButton.Text = "Reselect Programs / Games";
+            reselectButton.Text = "重新选择游戏";
             reselectButton.UseVisualStyleBackColor = true;
             reselectButton.Click += OnReselect;
             // 
@@ -127,7 +127,7 @@ namespace CreamInstaller.Forms
             MinimizeBox = false;
             Name = "InstallForm";
             StartPosition = FormStartPosition.Manual;
-            Text = "InstallForm";
+            Text = "安装日志";
             Load += OnLoad;
             ResumeLayout(false);
         }
