@@ -13,7 +13,9 @@ CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 ---
 ＃＃＃＃ 描述：
 自动查找用户计算机上所有已安装的 Steam、Epic 和 Ubisoft 游戏与DLC,相关DLL 位置，
+
 解析SteamCMD、Steam Store和Epic Games Store以获取用户选择的游戏的DLC，提供简单的图形交互菜单
+
 利用解析到的信息来维护 DLC 解锁器。
 
 该程序的主要功能是**自动检测可解锁的DLC并安装可用于 DLC 解锁文件**
