@@ -66,7 +66,7 @@ internal static class UplayR1
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"    {selectionDlc.Id}{(pair.Equals(lastBlacklistDlc) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"记录排除的DLC AppID到UplayR1Unlocker.jsonc {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"记录排除的DLC ID到UplayR1Unlocker.jsonc {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }

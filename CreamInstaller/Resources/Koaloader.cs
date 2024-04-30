@@ -73,7 +73,7 @@ internal static class Koaloader
             {
                 old_config.MoveFile(config!);
                 installForm?.UpdateUser(
-                    $"覆盖删除参数: {Path.GetFileName(old_config)} -> {Path.GetFileName(config)}",
+                    $"覆盖旧的参数: {Path.GetFileName(old_config)} -> {Path.GetFileName(config)}",
                     LogTextBox.Action, false);
             }
             else

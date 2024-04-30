@@ -156,7 +156,7 @@ internal static class SmokeAPI
                         writer.WriteLine(
                             $"        \"{selectionDlc.Id}\": \"{selectionDlc.Name}\"{(extraPair.Equals(lastExtraAppDlc) ? "" : ",")}");
                         installForm?.UpdateUser(
-                            $"输入appid将额外的DLC添加到SmokeAPI.config.json {selectionDlc.Id} ({selectionDlc.Name})",
+                            $"额外的DLC ID将记录到SmokeAPI.config.json {selectionDlc.Id} ({selectionDlc.Name})",
                             LogTextBox.Action, false);
                     }
 

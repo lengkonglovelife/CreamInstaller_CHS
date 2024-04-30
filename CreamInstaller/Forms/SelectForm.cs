@@ -53,7 +53,7 @@ internal sealed partial class SelectForm : CustomForm
     private static void UpdateRemaining(Label label, ConcurrentDictionary<string, string> list, string descriptor)
         => label.Text = list.IsEmpty
             ? ""
-            : $"Remaining {descriptor} ({list.Count}): " + string.Join(", ", list.Values).Replace("&", "&&");
+            : $"剩余搜索的 {descriptor} ({list.Count}): " + string.Join(", ", list.Values).Replace("&", "&&");
 
     private void UpdateRemainingGames() => UpdateRemaining(progressLabelGames, remainingGames, "games");
 
