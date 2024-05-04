@@ -18,7 +18,7 @@ CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 
 利用解析到的信息来维护 DLC 解锁器。
 
-该程序的主要功能是**自动检测可解锁的DLC并安装可用于 DLC 解锁文件**
+该程序的主要功能是**自动检测可解锁的DLC并安装可用于DLC解锁的文件**
 用户选择的游戏和 DLC； 但是，通过使用**右键单击上下文菜单**，用户还可以：
 * 自动修补Paradox Launcher
 * 在记事本中打开解析的 Steam 或 Epic Games 游戏信息
