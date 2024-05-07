@@ -119,7 +119,7 @@ internal static class Koaloader
             {
                 string path = pair.Value;
                 writer.WriteLine($"      \"{path}\"{(pair.Equals(lastTarget) ? "" : ",")}");
-                installForm?.UpdateUser($"已向Koaloader.json写入功能,且指定路径 {path}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"选择的游戏信息写入到koaloader.json 路径为:{path}", LogTextBox.Action, false);
             }
 
             writer.WriteLine("  ]");
@@ -138,7 +138,7 @@ internal static class Koaloader
                 writer.WriteLine("      \"path\": \"" + path + "\",");
                 writer.WriteLine("      \"required\": true");
                 writer.WriteLine("    }" + (pair.Equals(lastModule) ? "" : ","));
-                installForm?.UpdateUser($"已向Koaloader.json写入模块,且指定路径 {path}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"选择的功能信息已经写入到的Koaloader.json 路径为:{path}", LogTextBox.Action, false);
             }
 
             writer.WriteLine("  ]");
@@ -241,7 +241,7 @@ internal static class Koaloader
                         {
                             path.DeleteFile();
                             installForm?.UpdateUser(
-                                $"从非源目录删除 SmokeAPI: {Path.GetFileName(path)}",
+                                $"删除 SmokeAPI: {Path.GetFileName(path)}",
                                 LogTextBox.Action, false);
                         }
 
@@ -263,7 +263,7 @@ internal static class Koaloader
                         {
                             path.DeleteFile();
                             installForm?.UpdateUser(
-                                $"从非源目录删除 SmokeAPI: {Path.GetFileName(path)}",
+                                $"删除 SmokeAPI: {Path.GetFileName(path)}",
                                 LogTextBox.Action, false);
                         }
 
@@ -292,7 +292,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录删除 ScreamAPI: {Path.GetFileName(path)}",
+                                    $"删除 ScreamAPI: {Path.GetFileName(path)}",
                                     LogTextBox.Action, false);
                             }
 
@@ -314,7 +314,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录删除 ScreamAPI: {Path.GetFileName(path)}",
+                                    $"删除 ScreamAPI: {Path.GetFileName(path)}",
                                     LogTextBox.Action, false);
                             }
 
@@ -341,7 +341,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录删除 Uplay R1 Unlocker: {Path.GetFileName(path)}",
+                                    $"删除 Uplay R1 Unlocker: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -364,7 +364,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录中删除Uplay R1 Unlocker: {Path.GetFileName(path)}",
+                                    $"删除Uplay R1 Unlocker: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -388,7 +388,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录中删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
+                                    $"删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -411,7 +411,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"从非根目录中删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
+                                    $"删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }

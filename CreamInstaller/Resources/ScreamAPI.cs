@@ -92,7 +92,7 @@ internal static class ScreamAPI
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"      \"{selectionDlc.Id}\"{(pair.Equals(lastOverrideCatalogItem) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"未解锁的DLC ID 将记录在ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"未解锁的DLC将记录在ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
@@ -115,7 +115,7 @@ internal static class ScreamAPI
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"      \"{selectionDlc.Id}\"{(pair.Equals(lastEntitlement) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"将注入的DLC ID 写入到ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"将注入的DLC记录到ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }

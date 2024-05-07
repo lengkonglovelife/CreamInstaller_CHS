@@ -57,7 +57,7 @@ internal static class Resources
             }
             catch (Exception e)
             {
-                if (filePath.IOWarn("Failed to write a crucial manifest resource (" + resourceIdentifier + ")", e) is
+                if (filePath.IOWarn("编译核心资源失败(" + resourceIdentifier + ")", e) is
                     not DialogResult.OK)
                     break;
             }
@@ -74,7 +74,7 @@ internal static class Resources
             }
             catch (Exception e)
             {
-                if (filePath.IOWarn("Failed to write a crucial resource", e) is not DialogResult.OK)
+                if (filePath.IOWarn("编译关键资源失败", e) is not DialogResult.OK)
                     break;
             }
 

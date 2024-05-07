@@ -70,7 +70,7 @@ internal static class UplayR2
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"    {selectionDlc.Id}{(pair.Equals(lastBlacklistDlc) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"记录排除的DLC ID到UplayR2Unlocker.jsonc {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"记录未解锁的DLC到UplayR2Unlocker.jsonc {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
