@@ -74,7 +74,7 @@ internal sealed partial class UpdateForm : CustomForm
             StartProgram();
         else
         {
-            progressLabel.Text = $"有一个更新: v{latestVersion}";
+            progressLabel.Text = $"有一个更新(更新后无中文): v{latestVersion}";
             ignoreButton.Enabled = true;
             updateButton.Enabled = true;
             updateButton.Click += OnUpdate;

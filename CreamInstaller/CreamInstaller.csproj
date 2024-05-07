@@ -7,7 +7,7 @@
         <Version>4.10.2</Version>
         <Copyright>2021, pointfeev (https://github.com/pointfeev)</Copyright>
         <Company>CreamInstaller</Company>
-        <Product>Automatic DLC Unlocker Installer &amp; Configuration Generator</Product>
+        <Product>一个老年痴呆都会用的DLC一键解锁工具 中文版(unofficial)</Product>
         <StartupObject>CreamInstaller.Program</StartupObject>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <AnalysisLevel>latest-recommended</AnalysisLevel>

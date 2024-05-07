@@ -92,7 +92,7 @@ namespace CreamInstaller.Forms
             programsGroupBox.Size = new System.Drawing.Size(560, 209);
             programsGroupBox.TabIndex = 8;
             programsGroupBox.TabStop = false;
-            programsGroupBox.Text = "程序或游戏";
+            programsGroupBox.Text = "游戏目录";
             // 
             // koaloaderFlowPanel
             // 
@@ -271,7 +271,7 @@ namespace CreamInstaller.Forms
             progressLabelGames.Name = "progressLabelGames";
             progressLabelGames.Size = new System.Drawing.Size(560, 12);
             progressLabelGames.TabIndex = 11;
-            progressLabelGames.Text = "剩余游戏 (2): 游戏 1, 游戏 2";
+            progressLabelGames.Text = "正在搜索 (2): 游戏 1, 游戏 2";
             // 
             // progressLabelDLCs
             // 
@@ -281,7 +281,7 @@ namespace CreamInstaller.Forms
             progressLabelDLCs.Name = "progressLabelDLCs";
             progressLabelDLCs.Size = new System.Drawing.Size(560, 12);
             progressLabelDLCs.TabIndex = 12;
-            progressLabelDLCs.Text = "剩余 DLC (2): 123456, 654321";
+            progressLabelDLCs.Text = "正在记录 DLC (2): 123456, 654321";
             // 
             // sortCheckBox
             // 
