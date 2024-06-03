@@ -1,3 +1,5 @@
+加载缓慢是因为调用了steamdb的api,GPW有时候会墙,这种情况建议挂梯子,或者继续等待。
+
 CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 
 国内用户下载缓慢可用:https://lengkonglovelife.lanzoum.com/b0plmz4sb 密码6666
