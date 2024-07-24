@@ -27,7 +27,7 @@ internal static class ParadoxLauncher
         get
         {
             installPath ??= Registry.GetValue(@"HKEY_CURRENT_USER\Software\Paradox Interactive\Paradox Launcher v2",
-                "LauncherInstallation", null) as string;
+                "安装启动器", null) as string;
             return installPath.ResolvePath();
         }
     }
@@ -58,9 +58,9 @@ internal static class ParadoxLauncher
             return false;
         using DialogForm dialogForm = new(form);
         return dialogForm.Show(SystemIcons.Warning,
-            "警告：没有扫描到,有带DLC的游戏可以添加到 Paradox Launcher!"
-            + "\n\n单为Paradox Launcher安装 DLC Unlocker 可能会导致现在的配置被删除！",
-            "跳过", "取消",
+            "警告: 没有DLC可以添加到 Paradox Launcher 进行解锁"
+            + "\n\n只为Paradox Launcher安装DLC解锁工具可能会导致现在的设置被删除",
+            "忽略", "取消",
             "Paradox Launcher") != DialogResult.OK;
     }
 
@@ -75,7 +75,7 @@ internal static class ParadoxLauncher
         }
 
         using DialogForm dialogForm = new(form);
-        bool smokeInstalled = false;
+        bool creamInstalled = false;
         byte[] steamOriginalSdk32 = null;
         byte[] steamOriginalSdk64 = null;
         bool screamInstalled = false;
@@ -83,27 +83,36 @@ internal static class ParadoxLauncher
         byte[] epicOriginalSdk64 = null;
         foreach (string directory in selection.DllDirectories.TakeWhile(_ => !Program.Canceled))
         {
-            bool koaloaderInstalled = Koaloader.AutoLoadDLLs
-                .Select(pair => (pair.unlocker, path: directory + @"\" + pair.dll))
-                .Any(pair => pair.path.FileExists() && pair.path.IsResourceFile());
-            directory.GetSmokeApiComponents(out string api32, out string api32_o, out string api64, out string api64_o,
-                out string old_config,
-                out string config, out _, out _, out _);
-            smokeInstalled = smokeInstalled || api32_o.FileExists() || api64_o.FileExists()
-                             || (old_config.FileExists() || config.FileExists()) && !koaloaderInstalled
-                             || api32.FileExists() && api32.IsResourceFile(ResourceIdentifier.Steamworks32)
-                             || api64.FileExists() && api64.IsResourceFile(ResourceIdentifier.Steamworks64);
-            await SmokeAPI.Uninstall(directory, deleteOthers: false);
+            string api32;
+            string api32_o;
+            string api64;
+            string api64_o;
+            if (Program.UseSmokeAPI)
+            {
+                directory.GetSmokeApiComponents(out api32, out api32_o, out api64, out api64_o,
+                    out _, out _, out _, out _, out _);
+                creamInstalled = creamInstalled || api32_o.FileExists() || api64_o.FileExists()
+                                 || api32.FileExists() && api32.IsResourceFile(ResourceIdentifier.Steamworks32)
+                                 || api64.FileExists() && api64.IsResourceFile(ResourceIdentifier.Steamworks64);
+                await SmokeAPI.Uninstall(directory, deleteOthers: false);
+            }
+            else
+            {
+                directory.GetCreamApiComponents(out api32, out api32_o, out api64, out api64_o, out _);
+                creamInstalled = creamInstalled || api32_o.FileExists() || api64_o.FileExists()
+                                 || api32.FileExists() && api32.IsResourceFile(ResourceIdentifier.Steamworks32)
+                                 || api64.FileExists() && api64.IsResourceFile(ResourceIdentifier.Steamworks64);
+                await CreamAPI.Uninstall(directory, deleteOthers: false);
+            }
+
             if (steamOriginalSdk32 is null && api32.FileExists() &&
                 !api32.IsResourceFile(ResourceIdentifier.Steamworks32))
                 steamOriginalSdk32 = api32.ReadFileBytes(true);
             if (steamOriginalSdk64 is null && api64.FileExists() &&
                 !api64.IsResourceFile(ResourceIdentifier.Steamworks64))
                 steamOriginalSdk64 = api64.ReadFileBytes(true);
-            directory.GetScreamApiComponents(out api32, out api32_o, out api64, out api64_o, out config,
-                out string log);
+            directory.GetScreamApiComponents(out api32, out api32_o, out api64, out api64_o, out _, out _);
             screamInstalled = screamInstalled || api32_o.FileExists() || api64_o.FileExists()
-                              || (config.FileExists() || log.FileExists()) && !koaloaderInstalled
                               || api32.FileExists() && api32.IsResourceFile(ResourceIdentifier.EpicOnlineServices32)
                               || api64.FileExists() && api64.IsResourceFile(ResourceIdentifier.EpicOnlineServices64);
             await ScreamAPI.Uninstall(directory, deleteOthers: false);
@@ -121,15 +130,22 @@ internal static class ParadoxLauncher
             bool neededRepair = false;
             foreach (string directory in selection.DllDirectories.TakeWhile(_ => !Program.Canceled))
             {
-                directory.GetSmokeApiComponents(out string api32, out _, out string api64, out _, out _, out _, out _,
-                    out _, out _);
+                string api32;
+                string api64;
+                if (Program.UseSmokeAPI)
+                    directory.GetSmokeApiComponents(out api32, out _, out api64, out _, out _, out _,
+                        out _,
+                        out _, out _);
+                else
+                    directory.GetCreamApiComponents(out api32, out _, out api64, out _, out _);
+
                 if (steamOriginalSdk32 is not null && api32.IsResourceFile(ResourceIdentifier.Steamworks32))
                 {
                     steamOriginalSdk32.WriteResource(api32);
                     if (installForm is not null)
-                        installForm.UpdateUser("已修改 Steamworks: " + api32, LogTextBox.Action);
+                        installForm.UpdateUser("修改后的 Steamworks: " + api32, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("已修改 Steamworks: " + api32);
+                        dialogText.AppendLine("修改后的 Steamworks: " + api32);
                     neededRepair = true;
                 }
 
@@ -137,22 +153,26 @@ internal static class ParadoxLauncher
                 {
                     steamOriginalSdk64.WriteResource(api64);
                     if (installForm is not null)
-                        installForm.UpdateUser("已修改 Steamworks: " + api64, LogTextBox.Action);
+                        installForm.UpdateUser("修改后的 Steamworks: " + api64, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("已修改 Steamworks: " + api64);
+                        dialogText.AppendLine("修改后的 Steamworks: " + api64);
                     neededRepair = true;
                 }
 
-                if (smokeInstalled)
-                    await SmokeAPI.Install(directory, selection, generateConfig: false);
+                if (creamInstalled)
+                    if (Program.UseSmokeAPI)
+                        await SmokeAPI.Install(directory, selection, generateConfig: false);
+                    else
+                        await CreamAPI.Install(directory, selection, generateConfig: false);
+
                 directory.GetScreamApiComponents(out api32, out _, out api64, out _, out _, out _);
                 if (epicOriginalSdk32 is not null && api32.IsResourceFile(ResourceIdentifier.EpicOnlineServices32))
                 {
                     epicOriginalSdk32.WriteResource(api32);
                     if (installForm is not null)
-                        installForm.UpdateUser("已修改 Epic Online Services: " + api32, LogTextBox.Action);
+                        installForm.UpdateUser("修改后的 Epic Online Services: " + api32, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("已修改 Epic Online Services: " + api32);
+                        dialogText.AppendLine("修改后的 Epic Online Services: " + api32);
                     neededRepair = true;
                 }
 
@@ -160,9 +180,9 @@ internal static class ParadoxLauncher
                 {
                     epicOriginalSdk64.WriteResource(api64);
                     if (installForm is not null)
-                        installForm.UpdateUser("已修改 Epic Online Services: " + api64, LogTextBox.Action);
+                        installForm.UpdateUser("修改后的 Epic Online Services: " + api64, LogTextBox.Action);
                     else
-                        dialogText.AppendLine("已修改 Epic Online Services: " + api64);
+                        dialogText.AppendLine("修改后的 Epic Online Services: " + api64);
                     neededRepair = true;
                 }
 
@@ -175,10 +195,10 @@ internal static class ParadoxLauncher
                 if (neededRepair)
                 {
                     if (installForm is not null)
-                        installForm.UpdateUser("Paradox Launcher 修改成功！", LogTextBox.Action);
+                        installForm.UpdateUser("Paradox Launcher 成功修补", LogTextBox.Action);
                     else
                     {
-                        dialogText.AppendLine("\nParadox Launcher 修改成功");
+                        dialogText.AppendLine("\nParadox Launcher 成功修补");
                         _ = dialogForm.Show(form.Icon, dialogText.ToString(), customFormText: "Paradox Launcher");
                     }
 
@@ -186,9 +206,9 @@ internal static class ParadoxLauncher
                 }
 
                 if (installForm is not null)
-                    installForm.UpdateUser("Paradox Launcher 不需要修改。", LogTextBox.Success);
+                    installForm.UpdateUser("Paradox Launcher 不需要修补", LogTextBox.Success);
                 else
-                    _ = dialogForm.Show(SystemIcons.Information, "Paradox Launcher 不需要修改。",
+                    _ = dialogForm.Show(SystemIcons.Information, "Paradox Launcher 不需要修补",
                         customFormText: "Paradox Launcher");
                 return RepairResult.Unnecessary;
             }
@@ -197,19 +217,19 @@ internal static class ParadoxLauncher
         if (Program.Canceled)
         {
             _ = form is InstallForm
-                ? throw new CustomMessageException("修改失败！操作中止")
-                : dialogForm.Show(SystemIcons.Error, "修改失败！操作中止",
+                ? throw new CustomMessageException("修补失败! 操作取消")
+                : dialogForm.Show(SystemIcons.Error, "Paradox Launcher 修补失败! 操作取消",
                     customFormText: "Paradox Launcher");
             return RepairResult.Failure;
         }
 
         _ = form is InstallForm
             ? throw new CustomMessageException(
-                "Repair failed! " + "无法找到原始 Steamworks 或 Epic Online Services 文件。 "
-                                  + "可能需要重新安装 Paradox Launcher 才能解决此问题。")
+                "Repair failed! " + "无法找到原SteamWork和Epic Online Services  "
+                                  + "重新安装 Paradox Launcher 可能解决此问题")
             : dialogForm.Show(SystemIcons.Error,
-                "Paradox Launcher repair failed!" + "\n\n无法找到原始 Steamworks 或 Epic Online Services 文件"
-                                                  + "\n可能需要重新安装 Paradox Launcher 才能解决此问题。",
+                "Paradox Launcher repair failed!" + "\n\n无法找到原SteamWork和Epic Online Services"
+                                                  + "\n重新安装 Paradox Launcher 可能解决此问题",
                 customFormText: "Paradox Launcher");
         return RepairResult.Failure;
     }

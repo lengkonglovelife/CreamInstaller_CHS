@@ -36,7 +36,7 @@ internal static class UplayR2
         if (blacklistDlc.Count > 0)
         {
             /*if (installForm is not null)
-                installForm.UpdateUser("Generating Uplay R2 Unlocker configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
+                installForm.UpdateUser("Generating Uplay R2 Unlocker configuration for " + selection.Name + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);*/
             config.CreateFile(true, installForm)?.Close();
             StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer, new(blacklistDlc.ToDictionary(dlc => dlc.Id, dlc => dlc), PlatformIdComparer.String),
@@ -47,7 +47,7 @@ internal static class UplayR2
         else if (config.FileExists())
         {
             config.DeleteFile();
-            installForm?.UpdateUser($"删除不需要的配置: {Path.GetFileName(config)}", LogTextBox.Action,
+            installForm?.UpdateUser($"Deleted unnecessary configuration: {Path.GetFileName(config)}", LogTextBox.Action,
                 false);
         }
     }
@@ -70,7 +70,7 @@ internal static class UplayR2
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"    {selectionDlc.Id}{(pair.Equals(lastBlacklistDlc) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"记录未解锁的DLC到UplayR2Unlocker.jsonc {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"Added blacklist DLC to UplayR2Unlocker.jsonc with appid {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
@@ -95,12 +95,12 @@ internal static class UplayR2
                 if (api.FileExists())
                 {
                     api.DeleteFile(true);
-                    installForm?.UpdateUser($"删除 Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action,
+                    installForm?.UpdateUser($"Deleted Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action,
                         false);
                 }
 
                 api32_o.MoveFile(api!);
-                installForm?.UpdateUser($"恢复 Uplay R2: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api)}",
+                installForm?.UpdateUser($"Restored Uplay R2: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api)}",
                     LogTextBox.Action, false);
             }
 
@@ -110,12 +110,12 @@ internal static class UplayR2
                 if (api.FileExists())
                 {
                     api.DeleteFile(true);
-                    installForm?.UpdateUser($"删除 Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action,
+                    installForm?.UpdateUser($"Deleted Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action,
                         false);
                 }
 
                 api64_o.MoveFile(api!);
-                installForm?.UpdateUser($"恢复 Uplay R2: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api)}",
+                installForm?.UpdateUser($"Restored Uplay R2: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api)}",
                     LogTextBox.Action, false);
             }
 
@@ -124,13 +124,13 @@ internal static class UplayR2
             if (config.FileExists())
             {
                 config.DeleteFile();
-                installForm?.UpdateUser($"删除配置: {Path.GetFileName(config)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除 配置 {Path.GetFileName(config)}", LogTextBox.Action, false);
             }
 
             if (!log.FileExists())
                 return;
             log.DeleteFile();
-            installForm?.UpdateUser($"删除Log: {Path.GetFileName(log)}", LogTextBox.Action, false);
+            installForm?.UpdateUser($"Deleted log: {Path.GetFileName(log)}", LogTextBox.Action, false);
         });
 
     internal static async Task Install(string directory, Selection selection, InstallForm installForm = null,
@@ -144,28 +144,28 @@ internal static class UplayR2
             if (api.FileExists() && !api32_o.FileExists())
             {
                 api.MoveFile(api32_o!, true);
-                installForm?.UpdateUser($"重命名 Uplay R2: {Path.GetFileName(api)} -> {Path.GetFileName(api32_o)}",
+                installForm?.UpdateUser($"Renamed Uplay R2: {Path.GetFileName(api)} -> {Path.GetFileName(api32_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api32_o.FileExists())
             {
                 "UplayR2.upc_r2_loader.dll".WriteManifestResource(api);
-                installForm?.UpdateUser($"生成 Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Wrote Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action, false);
             }
 
             api = old_api64.FileExists() ? old_api64 : api64;
             if (api.FileExists() && !api64_o.FileExists())
             {
                 api.MoveFile(api64_o!, true);
-                installForm?.UpdateUser($"重命名 Uplay R2: {Path.GetFileName(api)} -> {Path.GetFileName(api64_o)}",
+                installForm?.UpdateUser($"Renamed Uplay R2: {Path.GetFileName(api)} -> {Path.GetFileName(api64_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api64_o.FileExists())
             {
                 "UplayR2.upc_r2_loader64.dll".WriteManifestResource(api);
-                installForm?.UpdateUser($"生成 Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Wrote Uplay R2 Unlocker: {Path.GetFileName(api)}", LogTextBox.Action, false);
             }
 
             if (generateConfig)

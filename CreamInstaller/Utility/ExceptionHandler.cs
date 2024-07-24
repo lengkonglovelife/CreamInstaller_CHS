@@ -53,10 +53,10 @@ internal static class ExceptionHandler
         string acceptButtonText = "重试",
         string cancelButtonText = "取消")
     {
-        caption ??= Program.Name + " 出现错误";
+        caption ??= Program.Name + " encountered an exception";
         string outputString = e.FormatException();
         if (string.IsNullOrWhiteSpace(outputString))
-            outputString = e?.ToString() ?? "未知错误";
+            outputString = e?.ToString() ?? "Unknown exception";
         using DialogForm dialogForm = new(form ?? Form.ActiveForm);
         return dialogForm.Show(SystemIcons.Error, outputString, acceptButtonText, cancelButtonText, caption) is
             DialogResult.OK;
@@ -64,7 +64,7 @@ internal static class ExceptionHandler
 
     internal static void HandleFatalException(this Exception e)
     {
-        e.HandleException(caption: Program.Name + " 致命错误", acceptButtonText: "确定",
+        e.HandleException(caption: Program.Name + " encountered a fatal exception", acceptButtonText: "OK",
             cancelButtonText: null);
         Application.Exit();
     }

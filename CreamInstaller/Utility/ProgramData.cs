@@ -111,7 +111,7 @@ internal static class ProgramData
                 // ignored
             }
 
-        return Enumerable.Empty<(Platform platform, string id)>();
+        return [];
     }
 
     internal static void WriteProgramChoices(IEnumerable<(Platform platform, string id)> choices)
@@ -144,7 +144,7 @@ internal static class ProgramData
                 // ignored
             }
 
-        return Enumerable.Empty<(Platform platform, string gameId, string dlcId)>();
+        return [];
     }
 
     internal static void WriteDlcChoices(List<(Platform platform, string gameId, string dlcId)> choices)
@@ -162,7 +162,7 @@ internal static class ProgramData
         }
     }
 
-    internal static IEnumerable<(Platform platform, string id, string proxy, bool enabled)> ReadKoaloaderChoices()
+    internal static IEnumerable<(Platform platform, string id, string proxy, bool enabled)> ReadProxyChoices()
     {
         if (KoaloaderProxyChoicesPath.FileExists())
             try
@@ -177,10 +177,10 @@ internal static class ProgramData
                 // ignored
             }
 
-        return Enumerable.Empty<(Platform platform, string id, string proxy, bool enabled)>();
+        return [];
     }
 
-    internal static void WriteKoaloaderProxyChoices(
+    internal static void WriteProxyChoices(
         IEnumerable<(Platform platform, string id, string proxy, bool enabled)> choices)
     {
         try
