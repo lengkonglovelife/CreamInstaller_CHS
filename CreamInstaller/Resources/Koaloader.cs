@@ -73,13 +73,13 @@ internal static class Koaloader
             {
                 old_config.MoveFile(config!);
                 installForm?.UpdateUser(
-                    $"覆盖旧的参数: {Path.GetFileName(old_config)} -> {Path.GetFileName(config)}",
+                    $"Converted old configuration: {Path.GetFileName(old_config)} -> {Path.GetFileName(config)}",
                     LogTextBox.Action, false);
             }
             else
             {
                 old_config.DeleteFile();
-                installForm?.UpdateUser($"删除旧参数: {Path.GetFileName(old_config)}", LogTextBox.Action,
+                installForm?.UpdateUser($"Deleted old configuration: {Path.GetFileName(old_config)}", LogTextBox.Action,
                     false);
             }
         }
@@ -89,7 +89,7 @@ internal static class Koaloader
         if (targets.Count > 0 || modules.Count > 0)
         {
             /*if (installForm is not null)
-                installForm.UpdateUser("Generating Koaloader configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
+                installForm.UpdateUser("Generating Koaloader configuration for " + selection.Name + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);*/
             config.CreateFile(true, installForm)?.Close();
             StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer, targets, modules, installForm);
@@ -99,7 +99,7 @@ internal static class Koaloader
         else if (config.FileExists())
         {
             config.DeleteFile();
-            installForm?.UpdateUser($"删除不需要的配置: {Path.GetFileName(config)}", LogTextBox.Action,
+            installForm?.UpdateUser($"Deleted unnecessary configuration: {Path.GetFileName(config)}", LogTextBox.Action,
                 false);
         }
     }
@@ -119,7 +119,7 @@ internal static class Koaloader
             {
                 string path = pair.Value;
                 writer.WriteLine($"      \"{path}\"{(pair.Equals(lastTarget) ? "" : ",")}");
-                installForm?.UpdateUser($"选择的游戏信息写入到koaloader.json 路径为:{path}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Added target to Koaloader.json with path {path}", LogTextBox.Action, false);
             }
 
             writer.WriteLine("  ]");
@@ -138,7 +138,7 @@ internal static class Koaloader
                 writer.WriteLine("      \"path\": \"" + path + "\",");
                 writer.WriteLine("      \"required\": true");
                 writer.WriteLine("    }" + (pair.Equals(lastModule) ? "" : ","));
-                installForm?.UpdateUser($"选择的功能信息已经写入到的Koaloader.json 路径为:{path}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Added module to Koaloader.json with path {path}", LogTextBox.Action, false);
             }
 
             writer.WriteLine("  ]");
@@ -158,7 +158,7 @@ internal static class Koaloader
                          => proxyPath.FileExists() && proxyPath.IsResourceFile(ResourceIdentifier.Koaloader)))
             {
                 proxyPath.DeleteFile(true);
-                installForm?.UpdateUser($"删除 Koaloader: {Path.GetFileName(proxyPath)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Deleted Koaloader: {Path.GetFileName(proxyPath)}", LogTextBox.Action, false);
             }
 
             foreach ((string unlocker, string path) in AutoLoadDLLs
@@ -166,20 +166,20 @@ internal static class Koaloader
                          .Where(pair => pair.path.FileExists() && pair.path.IsResourceFile()))
             {
                 path.DeleteFile(true);
-                installForm?.UpdateUser($"删除 {unlocker}: {Path.GetFileName(path)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Deleted {unlocker}: {Path.GetFileName(path)}", LogTextBox.Action, false);
             }
 
             if (deleteConfig && old_config.FileExists())
             {
                 old_config.DeleteFile();
-                installForm?.UpdateUser($"删除 configuration: {Path.GetFileName(old_config)}", LogTextBox.Action,
+                installForm?.UpdateUser($"删除 配置 {Path.GetFileName(old_config)}", LogTextBox.Action,
                     false);
             }
 
             if (deleteConfig && config.FileExists())
             {
                 config.DeleteFile();
-                installForm?.UpdateUser($"删除配置: {Path.GetFileName(config)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除 配置 {Path.GetFileName(config)}", LogTextBox.Action, false);
             }
 
             await SmokeAPI.Uninstall(directory, installForm, deleteConfig);
@@ -193,23 +193,25 @@ internal static class Koaloader
     internal static async Task Install(string directory, BinaryType binaryType, Selection selection,
         string rootDirectory = null,
         InstallForm installForm = null, bool generateConfig = true)
-        => await Task.Run(() =>
+        => await Task.Run(async () =>
         {
-            string proxy = selection.KoaloaderProxy ?? Selection.DefaultKoaloaderProxy;
+            await CreamAPI.ProxyUninstall(directory, installForm);
+
+            string proxy = selection.Proxy ?? Selection.DefaultProxy;
             string path = directory + @"\" + proxy + ".dll";
             foreach (string _path in directory.GetKoaloaderProxies().Where(p =>
                          p != path && p.FileExists() && p.IsResourceFile(ResourceIdentifier.Koaloader)))
             {
                 _path.DeleteFile(true);
-                installForm?.UpdateUser($"删除 Koaloader: {Path.GetFileName(_path)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Deleted Koaloader: {Path.GetFileName(_path)}", LogTextBox.Action, false);
             }
 
             if (path.FileExists() && !path.IsResourceFile(ResourceIdentifier.Koaloader))
-                throw new CustomMessageException("Koaloader.DLL " + proxy +
-                                                 "已经存在！");
+                throw new CustomMessageException("A non-Koaloader DLL named " + proxy +
+                                                 ".dll already exists in this directory!");
             path.WriteProxy(proxy, binaryType);
             installForm?.UpdateUser(
-                $"生成 {(binaryType == BinaryType.BIT32 ? "32-bit" : "64-bit")} Koaloader: {Path.GetFileName(path)}",
+                $"Wrote {(binaryType == BinaryType.BIT32 ? "32-bit" : "64-bit")} Koaloader: {Path.GetFileName(path)}",
                 LogTextBox.Action,
                 false);
             bool bit32 = false, bit64 = false;
@@ -230,7 +232,7 @@ internal static class Koaloader
                         break;
                 }
 
-            if (selection.Platform is Platform.Steam or Platform.Paradox)
+            if (Program.UseSmokeAPI && selection.Platform is Platform.Steam or Platform.Paradox)
             {
                 if (bit32)
                 {
@@ -241,7 +243,7 @@ internal static class Koaloader
                         {
                             path.DeleteFile();
                             installForm?.UpdateUser(
-                                $"删除 SmokeAPI: {Path.GetFileName(path)}",
+                                $"Deleted SmokeAPI from non-root directory: {Path.GetFileName(path)}",
                                 LogTextBox.Action, false);
                         }
 
@@ -250,7 +252,7 @@ internal static class Koaloader
 
                     "SmokeAPI.steam_api.dll".WriteManifestResource(path);
                     installForm?.UpdateUser(
-                        $"生成 SmokeAPI{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                        $"Wrote SmokeAPI{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                         LogTextBox.Action, false);
                 }
 
@@ -263,7 +265,7 @@ internal static class Koaloader
                         {
                             path.DeleteFile();
                             installForm?.UpdateUser(
-                                $"删除 SmokeAPI: {Path.GetFileName(path)}",
+                                $"Deleted SmokeAPI from non-root directory: {Path.GetFileName(path)}",
                                 LogTextBox.Action, false);
                         }
 
@@ -272,7 +274,7 @@ internal static class Koaloader
 
                     "SmokeAPI.steam_api64.dll".WriteManifestResource(path);
                     installForm?.UpdateUser(
-                        $"生成 SmokeAPI{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                        $"Wrote SmokeAPI{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                         LogTextBox.Action, false);
                 }
 
@@ -292,7 +294,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除 ScreamAPI: {Path.GetFileName(path)}",
+                                    $"Deleted ScreamAPI from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action, false);
                             }
 
@@ -301,7 +303,7 @@ internal static class Koaloader
 
                         "ScreamAPI.EOSSDK-Win32-Shipping.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 ScreamAPI{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote ScreamAPI{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 
@@ -314,7 +316,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除 ScreamAPI: {Path.GetFileName(path)}",
+                                    $"Deleted ScreamAPI from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action, false);
                             }
 
@@ -323,7 +325,7 @@ internal static class Koaloader
 
                         "ScreamAPI.EOSSDK-Win64-Shipping.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 ScreamAPI{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote ScreamAPI{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 
@@ -341,7 +343,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除 Uplay R1 Unlocker: {Path.GetFileName(path)}",
+                                    $"Deleted Uplay R1 Unlocker from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -351,7 +353,7 @@ internal static class Koaloader
 
                         "UplayR1.uplay_r1_loader.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 Uplay R1 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote Uplay R1 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 
@@ -364,7 +366,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除Uplay R1 Unlocker: {Path.GetFileName(path)}",
+                                    $"Deleted Uplay R1 Unlocker from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -374,7 +376,7 @@ internal static class Koaloader
 
                         "UplayR1.uplay_r1_loader64.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 Uplay R1 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote Uplay R1 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 
@@ -388,7 +390,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
+                                    $"Deleted Uplay R2 Unlocker from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -398,7 +400,7 @@ internal static class Koaloader
 
                         "UplayR2.upc_r2_loader.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 Uplay R2 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote Uplay R2 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 
@@ -411,7 +413,7 @@ internal static class Koaloader
                             {
                                 path.DeleteFile();
                                 installForm?.UpdateUser(
-                                    $"删除Uplay R2 Unlocker: {Path.GetFileName(path)}",
+                                    $"Deleted Uplay R2 Unlocker from non-root directory: {Path.GetFileName(path)}",
                                     LogTextBox.Action,
                                     false);
                             }
@@ -421,7 +423,7 @@ internal static class Koaloader
 
                         "UplayR2.upc_r2_loader64.dll".WriteManifestResource(path);
                         installForm?.UpdateUser(
-                            $"生成 Uplay R2 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " 到根目录" : "")}: {Path.GetFileName(path)}",
+                            $"Wrote Uplay R2 Unlocker{(rootDirectory is not null && directory != rootDirectory ? " to root directory" : "")}: {Path.GetFileName(path)}",
                             LogTextBox.Action, false);
                     }
 

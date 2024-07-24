@@ -75,7 +75,7 @@ internal static class SafeIO
         Form form = null)
     {
         if (!directoryPath.DirectoryExists())
-            return Enumerable.Empty<string>();
+            return [];
         while (!Program.Canceled)
             try
             {
@@ -92,7 +92,7 @@ internal static class SafeIO
                     break;
             }
 
-        return Enumerable.Empty<string>();
+        return [];
     }
 
     internal static IEnumerable<string> EnumerateSubdirectories(this string directoryPath, string directoryPattern,
@@ -100,7 +100,7 @@ internal static class SafeIO
         bool crucial = false, Form form = null)
     {
         if (!directoryPath.DirectoryExists())
-            return Enumerable.Empty<string>();
+            return [];
         while (!Program.Canceled)
             try
             {
@@ -117,7 +117,7 @@ internal static class SafeIO
                     break;
             }
 
-        return Enumerable.Empty<string>();
+        return [];
     }
 
     internal static bool FileExists(this string filePath) => File.Exists(filePath);
@@ -279,7 +279,7 @@ internal static class SafeIO
                 break;
         }
 
-        DialogResult result = dialogForm.Show(SystemIcons.Warning, description, "Retry", "Cancel");
+        DialogResult result = dialogForm.Show(SystemIcons.Warning, description, "重试", "取消");
         if (result is not DialogResult.OK)
             Program.Canceled = true;
         return result;

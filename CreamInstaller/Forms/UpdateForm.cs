@@ -48,7 +48,7 @@ internal sealed partial class UpdateForm : CustomForm
         ignoreButton.Visible = true;
         updateButton.Text = "更新";
         updateButton.Click -= OnUpdateCancel;
-        progressLabel.Text = "检测更新 . . .";
+        progressLabel.Text = "检查更新 . . .";
         changelogTreeView.Visible = false;
         changelogTreeView.Location = progressLabel.Location with
         {
@@ -74,7 +74,7 @@ internal sealed partial class UpdateForm : CustomForm
             StartProgram();
         else
         {
-            progressLabel.Text = $"有一个更新(更新后无中文): v{latestVersion}";
+            progressLabel.Text = $"有新版本: v{latestVersion}";
             ignoreButton.Enabled = true;
             updateButton.Enabled = true;
             updateButton.Click += OnUpdate;
@@ -183,7 +183,7 @@ internal sealed partial class UpdateForm : CustomForm
         }
         catch (Exception ex)
         {
-            retry = ex.HandleException(this, Program.Name + " 更新时发生错误");
+            retry = ex.HandleException(this, Program.Name + " encountered an exception while updating");
             success = false;
         }
 

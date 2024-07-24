@@ -46,7 +46,7 @@ namespace CreamInstaller.Forms
             userInfoLabel.Name = "userInfoLabel";
             userInfoLabel.Size = new System.Drawing.Size(760, 15);
             userInfoLabel.TabIndex = 2;
-            userInfoLabel.Text = "加载中 . . . ";
+            userInfoLabel.Text = "Loading . . . ";
             // 
             // acceptButton
             // 
@@ -56,7 +56,7 @@ namespace CreamInstaller.Forms
             acceptButton.Name = "acceptButton";
             acceptButton.Size = new System.Drawing.Size(75, 23);
             acceptButton.TabIndex = 4;
-            acceptButton.Text = "确定";
+            acceptButton.Text = "OK";
             acceptButton.UseVisualStyleBackColor = true;
             acceptButton.Click += OnAccept;
             // 
@@ -103,7 +103,7 @@ namespace CreamInstaller.Forms
             reselectButton.Name = "reselectButton";
             reselectButton.Size = new System.Drawing.Size(200, 23);
             reselectButton.TabIndex = 2;
-            reselectButton.Text = "重新选择游戏";
+            reselectButton.Text = "返回选择";
             reselectButton.UseVisualStyleBackColor = true;
             reselectButton.Click += OnReselect;
             // 
@@ -127,7 +127,7 @@ namespace CreamInstaller.Forms
             MinimizeBox = false;
             Name = "InstallForm";
             StartPosition = FormStartPosition.Manual;
-            Text = "安装日志";
+            Text = "InstallForm";
             Load += OnLoad;
             ResumeLayout(false);
         }

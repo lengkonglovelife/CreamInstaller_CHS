@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CreamInstaller.Forms;
+using CreamInstaller.Resources;
 using CreamInstaller.Utility;
 using static CreamInstaller.Resources.Resources;
 
@@ -20,25 +21,36 @@ public enum Platform
 
 internal sealed class Selection : IEquatable<Selection>
 {
-    internal const string DefaultKoaloaderProxy = "version";
+    internal const string DefaultProxy = "winmm";
 
     internal static readonly ConcurrentDictionary<Selection, byte> All = new();
 
     internal readonly HashSet<string> DllDirectories;
     internal readonly List<(string directory, BinaryType binaryType)> ExecutableDirectories;
-    internal readonly HashSet<Selection> ExtraSelections = new();
+    internal readonly HashSet<Selection> ExtraSelections = [];
     internal readonly string Id;
     internal readonly string Name;
     internal readonly Platform Platform;
     internal readonly string RootDirectory;
     internal readonly TreeNode TreeNode;
     internal string Icon;
-    internal bool Koaloader;
-    internal string KoaloaderProxy;
+    internal bool UseProxy;
+    internal string Proxy;
     internal string Product;
     internal string Publisher;
     internal string SubIcon;
     internal string Website;
+
+    internal IEnumerable<string> GetAvailableProxies()
+    {
+        if (!Program.UseSmokeAPI && Platform is Platform.Steam or Platform.Paradox)
+            return CreamAPI.ProxyDLLs;
+        return EmbeddedResources.Where(r => r.StartsWith("Koaloader", StringComparison.Ordinal)).Select(p =>
+        {
+            p.GetProxyInfoFromIdentifier(out string proxyName, out _);
+            return proxyName;
+        }).ToHashSet();
+    }
 
     private Selection(Platform platform, string id, string name, string rootDirectory, HashSet<string> dllDirectories,
         List<(string directory, BinaryType binaryType)> executableDirectories)
@@ -55,7 +67,7 @@ internal sealed class Selection : IEquatable<Selection>
         if (selectForm is null)
             return;
         Enabled = selectForm.allCheckBox.Checked;
-        Koaloader = selectForm.koaloaderAllCheckBox.Checked;
+        UseProxy = selectForm.proxyAllCheckBox.Checked;
     }
 
     internal static IEnumerable<Selection> AllEnabled => All.Keys.Where(s => s.Enabled);

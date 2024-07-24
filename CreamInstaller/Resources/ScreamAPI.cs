@@ -55,7 +55,7 @@ internal static class ScreamAPI
         if (overrideCatalogItems.Count > 0 || injectedEntitlements.Count > 0)
         {
             /*if (installForm is not null)
-                installForm.UpdateUser("Generating ScreamAPI configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
+                installForm.UpdateUser("Generating ScreamAPI configuration for " + selection.Name + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);*/
             config.CreateFile(true, installForm)?.Close();
             StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer,
@@ -68,7 +68,7 @@ internal static class ScreamAPI
         else if (config.FileExists())
         {
             config.DeleteFile();
-            installForm?.UpdateUser($"删除不需要的配置: {Path.GetFileName(config)}", LogTextBox.Action,
+            installForm?.UpdateUser($"Deleted unnecessary configuration: {Path.GetFileName(config)}", LogTextBox.Action,
                 false);
         }
     }
@@ -92,7 +92,7 @@ internal static class ScreamAPI
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"      \"{selectionDlc.Id}\"{(pair.Equals(lastOverrideCatalogItem) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"未解锁的DLC将记录在ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"Added locked catalog item to ScreamAPI.json with id {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
@@ -115,7 +115,7 @@ internal static class ScreamAPI
                 SelectionDLC selectionDlc = pair.Value;
                 writer.WriteLine($"      \"{selectionDlc.Id}\"{(pair.Equals(lastEntitlement) ? "" : ",")}");
                 installForm?.UpdateUser(
-                    $"将注入的DLC记录到ScreamAPI.json {selectionDlc.Id} ({selectionDlc.Name})",
+                    $"Added injected entitlement to ScreamAPI.json with id {selectionDlc.Id} ({selectionDlc.Name})",
                     LogTextBox.Action,
                     false);
             }
@@ -143,11 +143,11 @@ internal static class ScreamAPI
                 if (api32.FileExists())
                 {
                     api32.DeleteFile(true);
-                    installForm?.UpdateUser($"删除 ScreamAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
+                    installForm?.UpdateUser($"Deleted ScreamAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
                 }
 
                 api32_o.MoveFile(api32!);
-                installForm?.UpdateUser($"已恢复 EOS: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api32)}",
+                installForm?.UpdateUser($"Restored EOS: {Path.GetFileName(api32_o)} -> {Path.GetFileName(api32)}",
                     LogTextBox.Action, false);
             }
 
@@ -156,11 +156,11 @@ internal static class ScreamAPI
                 if (api64.FileExists())
                 {
                     api64.DeleteFile(true);
-                    installForm?.UpdateUser($"删除 ScreamAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
+                    installForm?.UpdateUser($"Deleted ScreamAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
                 }
 
                 api64_o.MoveFile(api64!);
-                installForm?.UpdateUser($"已恢复 EOS: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api64)}",
+                installForm?.UpdateUser($"Restored EOS: {Path.GetFileName(api64_o)} -> {Path.GetFileName(api64)}",
                     LogTextBox.Action, false);
             }
 
@@ -169,13 +169,13 @@ internal static class ScreamAPI
             if (config.FileExists())
             {
                 config.DeleteFile();
-                installForm?.UpdateUser($"删除配置: {Path.GetFileName(config)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"删除 配置 {Path.GetFileName(config)}", LogTextBox.Action, false);
             }
 
             if (log.FileExists())
             {
                 log.DeleteFile();
-                installForm?.UpdateUser($"删除 log: {Path.GetFileName(log)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Deleted log: {Path.GetFileName(log)}", LogTextBox.Action, false);
             }
         });
 
@@ -188,27 +188,27 @@ internal static class ScreamAPI
             if (api32.FileExists() && !api32_o.FileExists())
             {
                 api32.MoveFile(api32_o!, true);
-                installForm?.UpdateUser($"重命名 EOS: {Path.GetFileName(api32)} -> {Path.GetFileName(api32_o)}",
+                installForm?.UpdateUser($"Renamed EOS: {Path.GetFileName(api32)} -> {Path.GetFileName(api32_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api32_o.FileExists())
             {
                 "ScreamAPI.EOSSDK-Win32-Shipping.dll".WriteManifestResource(api32);
-                installForm?.UpdateUser($"生成 ScreamAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Wrote ScreamAPI: {Path.GetFileName(api32)}", LogTextBox.Action, false);
             }
 
             if (api64.FileExists() && !api64_o.FileExists())
             {
                 api64.MoveFile(api64_o!, true);
-                installForm?.UpdateUser($"重命名 EOS: {Path.GetFileName(api64)} -> {Path.GetFileName(api64_o)}",
+                installForm?.UpdateUser($"Renamed EOS: {Path.GetFileName(api64)} -> {Path.GetFileName(api64_o)}",
                     LogTextBox.Action, false);
             }
 
             if (api64_o.FileExists())
             {
                 "ScreamAPI.EOSSDK-Win64-Shipping.dll".WriteManifestResource(api64);
-                installForm?.UpdateUser($"生成 ScreamAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
+                installForm?.UpdateUser($"Wrote ScreamAPI: {Path.GetFileName(api64)}", LogTextBox.Action, false);
             }
 
             if (generateConfig)

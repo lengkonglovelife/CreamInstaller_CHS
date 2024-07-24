@@ -48,7 +48,7 @@ namespace CreamInstaller.Forms
             acceptButton.Padding = new Padding(12, 0, 12, 0);
             acceptButton.Size = new System.Drawing.Size(57, 25);
             acceptButton.TabIndex = 6;
-            acceptButton.Text = "确定";
+            acceptButton.Text = "OK";
             acceptButton.UseVisualStyleBackColor = true;
             // 
             // groupBox
@@ -62,7 +62,7 @@ namespace CreamInstaller.Forms
             groupBox.Size = new System.Drawing.Size(524, 225);
             groupBox.TabIndex = 3;
             groupBox.TabStop = false;
-            groupBox.Text = "选择";
+            groupBox.Text = "Choices";
             // 
             // selectionTreeView
             // 
@@ -99,7 +99,7 @@ namespace CreamInstaller.Forms
             allCheckBox.Name = "allCheckBox";
             allCheckBox.Size = new System.Drawing.Size(40, 19);
             allCheckBox.TabIndex = 1;
-            allCheckBox.Text = "全部";
+            allCheckBox.Text = "全选";
             allCheckBox.CheckedChanged += OnAllCheckBoxChanged;
             // 
             // sortCheckBox

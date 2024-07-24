@@ -60,14 +60,18 @@ internal sealed partial class InstallForm : CustomForm
         UpdateProgress(0);
         if (selection.Id == "PL")
         {
-            UpdateUser("正在修补 Paradox Launcher . . . ", LogTextBox.Operation);
+            UpdateUser("Repairing Paradox Launcher . . . ", LogTextBox.Operation);
             _ = await Repair(this, selection);
         }
 
+        bool useKoaloader = selection.UseProxy && (Program.UseSmokeAPI || selection.Platform is not Platform.Steam);
+        bool useCreamApiProxy = selection.UseProxy && !Program.UseSmokeAPI &&
+                                (selection.Platform is Platform.Steam || selection.Platform is Platform.Paradox &&
+                                    selection.ExtraSelections.Any(s => s.Platform is Platform.Steam));
+
         UpdateUser(
             $"{(uninstalling ? "卸载" : "安装")}" + $" {(uninstalling ? "从" : "到")} " +
-            selection.Name
-            + $" 目录 \"{selection.RootDirectory}\" . . . ", LogTextBox.Operation);
+            selection.Name + $"目录 \"{selection.RootDirectory}\" . . . ", LogTextBox.Operation);
         IEnumerable<string> invalidDirectories = (await selection.RootDirectory.GetExecutables())
             ?.Where(d => selection.ExecutableDirectories.All(s => s.directory != Path.GetDirectoryName(d.path)))
             .Select(d => Path.GetDirectoryName(d.path));
@@ -79,6 +83,7 @@ internal sealed partial class InstallForm : CustomForm
             {
                 if (Program.Canceled)
                     return;
+
                 directory.GetKoaloaderComponents(out string old_config, out string config);
                 if (directory.GetKoaloaderProxies().Any(proxy =>
                         proxy.FileExists() && proxy.IsResourceFile(ResourceIdentifier.Koaloader))
@@ -87,55 +92,107 @@ internal sealed partial class InstallForm : CustomForm
                     || old_config.FileExists() || config.FileExists())
                 {
                     UpdateUser(
-                        "卸载 Koaloader " + selection.Name +
-                        $" 目录错误 \"{directory}\" . . . ", LogTextBox.Operation);
+                        "卸载 Koaloader从" + selection.Name +
+                        $"错误目录 \"{directory}\" . . . ", LogTextBox.Operation);
                     await Koaloader.Uninstall(directory, selection.RootDirectory, this);
+                }
+
+                directory.GetCreamApiComponents(out _, out _, out _, out _, out config);
+                if (directory.GetCreamApiProxies().Any(proxy =>
+                        proxy.FileExists() && (proxy.IsResourceFile(ResourceIdentifier.Steamworks32) ||
+                                               proxy.IsResourceFile(ResourceIdentifier.Steamworks64))))
+                {
+                    UpdateUser(
+                        "卸载CreamApi代理" + selection.Name +
+                        $"错误目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                    await CreamAPI.ProxyUninstall(directory, this);
                 }
             }
 
-        if (uninstalling || !selection.Koaloader)
-            foreach ((string directory, BinaryType _) in selection.ExecutableDirectories)
+        if (uninstalling || !useKoaloader || !useCreamApiProxy)
+            foreach ((string directory, _) in selection.ExecutableDirectories)
             {
                 if (Program.Canceled)
                     return;
-                directory.GetKoaloaderComponents(out string old_config, out string config);
-                if (directory.GetKoaloaderProxies().Any(proxy =>
-                        proxy.FileExists() && proxy.IsResourceFile(ResourceIdentifier.Koaloader))
-                    || Koaloader.AutoLoadDLLs.Any(pair => (directory + @"\" + pair.dll).FileExists()) ||
-                    old_config.FileExists() || config.FileExists())
+
+                if (uninstalling || !useKoaloader)
                 {
-                    UpdateUser(
-                        "卸载 Koaloader " + selection.Name + $" 在目录中 \"{directory}\" . . . ",
-                        LogTextBox.Operation);
-                    await Koaloader.Uninstall(directory, selection.RootDirectory, this);
+                    directory.GetKoaloaderComponents(out string old_config, out string config);
+                    if (directory.GetKoaloaderProxies().Any(proxy =>
+                            proxy.FileExists() && proxy.IsResourceFile(ResourceIdentifier.Koaloader))
+                        || Koaloader.AutoLoadDLLs.Any(pair => (directory + @"\" + pair.dll).FileExists()) ||
+                        old_config.FileExists() || config.FileExists())
+                    {
+                        UpdateUser(
+                            "卸载Koaloader从 " + selection.Name + $"目录 \"{directory}\" . . . ",
+                            LogTextBox.Operation);
+                        await Koaloader.Uninstall(directory, selection.RootDirectory, this);
+                    }
+                }
+
+                if (uninstalling || !useCreamApiProxy)
+                {
+                    directory.GetCreamApiComponents(out _, out _, out _, out _, out string config);
+                    if (directory.GetCreamApiProxies().Any(proxy =>
+                            proxy.FileExists() && (proxy.IsResourceFile(ResourceIdentifier.Steamworks32) ||
+                                                   proxy.IsResourceFile(ResourceIdentifier.Steamworks64))) ||
+                        config.FileExists())
+                    {
+                        UpdateUser(
+                            "卸载CreamApi代理 " + selection.Name +
+                            $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                        await CreamAPI.ProxyUninstall(directory, this);
+                    }
                 }
             }
 
-        bool uninstallProxy = uninstalling || selection.Koaloader;
+        bool uninstallingForProxy = uninstalling || useKoaloader || useCreamApiProxy;
         int count = selection.DllDirectories.Count, cur = 0;
         foreach (string directory in selection.DllDirectories)
         {
             if (Program.Canceled)
                 return;
+
             if (selection.Platform is Platform.Steam or Platform.Paradox)
             {
-                directory.GetSmokeApiComponents(out string api32, out string api32_o, out string api64,
-                    out string api64_o, out string old_config,
-                    out string config, out string old_log, out string log, out string cache);
-                if (uninstallProxy
-                        ? api32_o.FileExists() || api64_o.FileExists() || old_config.FileExists() ||
-                          config.FileExists() || old_log.FileExists() || log.FileExists()
-                          || cache.FileExists()
-                        : api32.FileExists() || api64.FileExists())
+                if (Program.UseSmokeAPI)
                 {
-                    UpdateUser(
-                        $"{(uninstallProxy ? "卸载" : "安装")} SmokeAPI" +
-                        $" {(uninstallProxy ? "从" : "安装")} " + selection.Name
-                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
-                    if (uninstallProxy)
-                        await SmokeAPI.Uninstall(directory, this);
-                    else
-                        await SmokeAPI.Install(directory, selection, this);
+                    directory.GetSmokeApiComponents(out string api32, out string api32_o, out string api64,
+                        out string api64_o, out string old_config,
+                        out string config, out string old_log, out string log, out string cache);
+                    if (uninstallingForProxy
+                            ? api32_o.FileExists() || api64_o.FileExists() || old_config.FileExists() ||
+                              config.FileExists() || old_log.FileExists() || log.FileExists()
+                              || cache.FileExists()
+                            : api32.FileExists() || api64.FileExists())
+                    {
+                        UpdateUser(
+                            $"{(uninstallingForProxy ? "卸载" : "安装")} SmokeAPI" +
+                            $" {(uninstallingForProxy ? "从" : "到")} " + selection.Name
+                            + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                        if (uninstallingForProxy)
+                            await SmokeAPI.Uninstall(directory, this);
+                        else
+                            await SmokeAPI.Install(directory, selection, this);
+                    }
+                }
+                else
+                {
+                    directory.GetCreamApiComponents(out string api32, out string api32_o, out string api64,
+                        out string api64_o, out string config);
+                    if (uninstallingForProxy
+                            ? api32_o.FileExists() || api64_o.FileExists() || config.FileExists()
+                            : api32.FileExists() || api64.FileExists())
+                    {
+                        UpdateUser(
+                            $"{(uninstallingForProxy ? "卸载" : "安装")} CreamAPI" +
+                            $" {(uninstallingForProxy ? "从" : "到")} " + selection.Name
+                            + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                        if (uninstallingForProxy)
+                            await CreamAPI.Uninstall(directory, this);
+                        else
+                            await CreamAPI.Install(directory, selection, this);
+                    }
                 }
             }
 
@@ -143,15 +200,15 @@ internal sealed partial class InstallForm : CustomForm
             {
                 directory.GetScreamApiComponents(out string api32, out string api32_o, out string api64,
                     out string api64_o, out string config, out string log);
-                if (uninstallProxy
+                if (uninstallingForProxy
                         ? api32_o.FileExists() || api64_o.FileExists() || config.FileExists() || log.FileExists()
                         : api32.FileExists() || api64.FileExists())
                 {
                     UpdateUser(
-                        $"{(uninstallProxy ? "卸载" : "安装")} ScreamAPI" +
-                        $" {(uninstallProxy ? "从" : "到")} " + selection.Name
-                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
-                    if (uninstallProxy)
+                        $"{(uninstallingForProxy ? "卸载" : "安装")} ScreamAPI" +
+                        $" {(uninstallingForProxy ? "从" : "到")} " + selection.Name
+                        + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                    if (uninstallingForProxy)
                         await ScreamAPI.Uninstall(directory, this);
                     else
                         await ScreamAPI.Install(directory, selection, this);
@@ -162,15 +219,15 @@ internal sealed partial class InstallForm : CustomForm
             {
                 directory.GetUplayR1Components(out string api32, out string api32_o, out string api64,
                     out string api64_o, out string config, out string log);
-                if (uninstallProxy
+                if (uninstallingForProxy
                         ? api32_o.FileExists() || api64_o.FileExists() || config.FileExists() || log.FileExists()
                         : api32.FileExists() || api64.FileExists())
                 {
                     UpdateUser(
-                        $"{(uninstallProxy ? "卸载" : "安装")} Uplay R1 Unlocker" +
-                        $" {(uninstallProxy ? "从" : "到")} " + selection.Name
-                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
-                    if (uninstallProxy)
+                        $"{(uninstallingForProxy ? "卸载" : "安装")} Uplay R1 Unlocker" +
+                        $" {(uninstallingForProxy ? "从" : "到")} " + selection.Name
+                        + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                    if (uninstallingForProxy)
                         await UplayR1.Uninstall(directory, this);
                     else
                         await UplayR1.Install(directory, selection, this);
@@ -178,15 +235,15 @@ internal sealed partial class InstallForm : CustomForm
 
                 directory.GetUplayR2Components(out string old_api32, out string old_api64, out api32, out api32_o,
                     out api64, out api64_o, out config, out log);
-                if (uninstallProxy
+                if (uninstallingForProxy
                         ? api32_o.FileExists() || api64_o.FileExists() || config.FileExists() || log.FileExists()
                         : old_api32.FileExists() || old_api64.FileExists() || api32.FileExists() || api64.FileExists())
                 {
                     UpdateUser(
-                        $"{(uninstallProxy ? "卸载" : "安装")} Uplay R2 Unlocker" +
-                        $" {(uninstallProxy ? "从" : "到")} " + selection.Name
-                        + $" 目录 \"{directory}\" . . . ", LogTextBox.Operation);
-                    if (uninstallProxy)
+                        $"{(uninstallingForProxy ? "卸载" : "安装")} Uplay R2 Unlocker" +
+                        $" {(uninstallingForProxy ? "从" : "到")} " + selection.Name
+                        + $"目录 \"{directory}\" . . . ", LogTextBox.Operation);
+                    if (uninstallingForProxy)
                         await UplayR2.Uninstall(directory, this);
                     else
                         await UplayR2.Install(directory, selection, this);
@@ -196,14 +253,26 @@ internal sealed partial class InstallForm : CustomForm
             UpdateProgress(++cur / count * 100);
         }
 
-        if (selection.Koaloader && !uninstalling)
+        if ((useCreamApiProxy || useKoaloader) && !uninstalling)
             foreach ((string directory, BinaryType binaryType) in selection.ExecutableDirectories)
             {
                 if (Program.Canceled)
                     return;
-                UpdateUser("正在安装 Koaloader 到 " + selection.Name + $" 目录 \"{directory}\" . . . ",
-                    LogTextBox.Operation);
-                await Koaloader.Install(directory, binaryType, selection, selection.RootDirectory, this);
+
+                if (useCreamApiProxy)
+                {
+                    UpdateUser(
+                        "安装CreamApi代理到 " + selection.Name +
+                        $"目录 \"{directory}\" . . . ",
+                        LogTextBox.Operation);
+                    await CreamAPI.ProxyInstall(directory, binaryType, selection, this);
+                }
+                else if (useKoaloader)
+                {
+                    UpdateUser("安装 Koaloader 到 " + selection.Name + $"目录 \"{directory}\" . . . ",
+                        LogTextBox.Operation);
+                    await Koaloader.Install(directory, binaryType, selection, selection.RootDirectory, this);
+                }
             }
 
         UpdateProgress(100);
@@ -216,13 +285,13 @@ internal sealed partial class InstallForm : CustomForm
         foreach (Selection selection in activeSelections)
         {
             if (Program.Canceled)
-                throw new CustomMessageException("操作取消.");
+                throw new CustomMessageException("操作取消");
             try
             {
                 await OperateFor(selection);
                 if (Program.Canceled)
-                    throw new CustomMessageException("安装取消.");
-                UpdateUser($"安装成功 {selection.Name}.", LogTextBox.Success);
+                    throw new CustomMessageException("操作取消");
+                UpdateUser($"成功安装到 {selection.Name}.", LogTextBox.Success);
                 _ = activeSelections.Remove(selection);
             }
             catch (Exception exception)
@@ -237,9 +306,9 @@ internal sealed partial class InstallForm : CustomForm
         int activeCount = activeSelections.Count;
         if (activeCount > 0)
             if (activeCount == 1)
-                throw new CustomMessageException($"安装失败 {activeSelections.First().Name}.");
+                throw new CustomMessageException($"操作失败原因 {activeSelections.First().Name}.");
             else
-                throw new CustomMessageException($" {activeCount} 安装失败.");
+                throw new CustomMessageException($"操作失败原因 {activeCount} programs.");
     }
 
     private async void Start()
@@ -254,13 +323,14 @@ internal sealed partial class InstallForm : CustomForm
         {
             await Operate();
             UpdateUser(
-                $"DLC解锁文件 {(uninstalling ? "卸载":"安装")}成功 ",
+                $"成功{(uninstalling ? "卸载" : "安装")} " +
+                 "",
                 LogTextBox.Success);
         }
         catch (Exception exception)
         {
             UpdateUser(
-                $"DLC解锁 {(uninstalling ? "卸载" : "安装")} 失败: " +
+                $"{(uninstalling ? "卸载" : "安装")} 失败: " +
                 exception, LogTextBox.Error);
             retryButton.Enabled = true;
         }

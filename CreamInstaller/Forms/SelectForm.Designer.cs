@@ -22,8 +22,8 @@ namespace CreamInstaller.Forms
             installButton = new Button();
             cancelButton = new Button();
             programsGroupBox = new GroupBox();
-            koaloaderFlowPanel = new FlowLayoutPanel();
-            koaloaderAllCheckBox = new CheckBox();
+            proxyFlowPanel = new FlowLayoutPanel();
+            proxyAllCheckBox = new CheckBox();
             noneFoundLabel = new Label();
             blockedGamesFlowPanel = new FlowLayoutPanel();
             blockedGamesCheckBox = new CheckBox();
@@ -39,15 +39,14 @@ namespace CreamInstaller.Forms
             sortCheckBox = new CheckBox();
             saveButton = new Button();
             loadButton = new Button();
-            resetKoaloaderButton = new Button();
             resetButton = new Button();
-            saveKoaloaderButton = new Button();
-            loadKoaloaderButton = new Button();
+            saveFlowPanel = new FlowLayoutPanel();
             selectionTreeView = new CustomTreeView();
             programsGroupBox.SuspendLayout();
-            koaloaderFlowPanel.SuspendLayout();
+            proxyFlowPanel.SuspendLayout();
             blockedGamesFlowPanel.SuspendLayout();
             allCheckBoxLayoutPanel.SuspendLayout();
+            saveFlowPanel.SuspendLayout();
             SuspendLayout();
             // 
             // installButton
@@ -56,10 +55,10 @@ namespace CreamInstaller.Forms
             installButton.AutoSize = true;
             installButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             installButton.Enabled = false;
-            installButton.Location = new System.Drawing.Point(427, 326);
+            installButton.Location = new System.Drawing.Point(495, 376);
             installButton.Name = "installButton";
-            installButton.Padding = new Padding(12, 0, 12, 0);
-            installButton.Size = new System.Drawing.Size(145, 25);
+            installButton.Padding = new Padding(3, 0, 3, 0);
+            installButton.Size = new System.Drawing.Size(127, 25);
             installButton.TabIndex = 10000;
             installButton.Text = "安装";
             installButton.UseVisualStyleBackColor = true;
@@ -70,10 +69,10 @@ namespace CreamInstaller.Forms
             cancelButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             cancelButton.AutoSize = true;
             cancelButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            cancelButton.Location = new System.Drawing.Point(12, 326);
+            cancelButton.Location = new System.Drawing.Point(12, 376);
             cancelButton.Name = "cancelButton";
-            cancelButton.Padding = new Padding(12, 0, 12, 0);
-            cancelButton.Size = new System.Drawing.Size(77, 25);
+            cancelButton.Padding = new Padding(3, 0, 3, 0);
+            cancelButton.Size = new System.Drawing.Size(59, 25);
             cancelButton.TabIndex = 10004;
             cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
@@ -82,54 +81,52 @@ namespace CreamInstaller.Forms
             // programsGroupBox
             // 
             programsGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            programsGroupBox.Controls.Add(koaloaderFlowPanel);
+            programsGroupBox.Controls.Add(proxyFlowPanel);
             programsGroupBox.Controls.Add(noneFoundLabel);
             programsGroupBox.Controls.Add(blockedGamesFlowPanel);
             programsGroupBox.Controls.Add(allCheckBoxLayoutPanel);
             programsGroupBox.Controls.Add(selectionTreeView);
             programsGroupBox.Location = new System.Drawing.Point(12, 12);
             programsGroupBox.Name = "programsGroupBox";
-            programsGroupBox.Size = new System.Drawing.Size(560, 209);
+            programsGroupBox.Size = new System.Drawing.Size(610, 287);
             programsGroupBox.TabIndex = 8;
             programsGroupBox.TabStop = false;
-            programsGroupBox.Text = "游戏目录";
+            programsGroupBox.Text = "游戏列表";
             // 
-            // koaloaderFlowPanel
+            // proxyFlowPanel
             // 
-            koaloaderFlowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            koaloaderFlowPanel.AutoSize = true;
-            koaloaderFlowPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            koaloaderFlowPanel.Controls.Add(koaloaderAllCheckBox);
-            koaloaderFlowPanel.Location = new System.Drawing.Point(422, -1);
-            koaloaderFlowPanel.Margin = new Padding(0);
-            koaloaderFlowPanel.Name = "koaloaderFlowPanel";
-            koaloaderFlowPanel.Size = new System.Drawing.Size(81, 19);
-            koaloaderFlowPanel.TabIndex = 10005;
-            koaloaderFlowPanel.WrapContents = false;
+            proxyFlowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            proxyFlowPanel.AutoSize = true;
+            proxyFlowPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            proxyFlowPanel.Controls.Add(proxyAllCheckBox);
+            proxyFlowPanel.Location = new System.Drawing.Point(478, -1);
+            proxyFlowPanel.Margin = new Padding(0);
+            proxyFlowPanel.Name = "proxyFlowPanel";
+            proxyFlowPanel.Size = new System.Drawing.Size(75, 19);
+            proxyFlowPanel.TabIndex = 10005;
+            proxyFlowPanel.WrapContents = false;
             // 
-            // koaloaderAllCheckBox
+            // proxyAllCheckBox
             // 
-            koaloaderAllCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            koaloaderAllCheckBox.AutoSize = true;
-            koaloaderAllCheckBox.Checked = true;
-            koaloaderAllCheckBox.CheckState = CheckState.Checked;
-            koaloaderAllCheckBox.Enabled = false;
-            koaloaderAllCheckBox.Location = new System.Drawing.Point(2, 0);
-            koaloaderAllCheckBox.Margin = new Padding(2, 0, 0, 0);
-            koaloaderAllCheckBox.Name = "koaloaderAllCheckBox";
-            koaloaderAllCheckBox.Size = new System.Drawing.Size(79, 19);
-            koaloaderAllCheckBox.TabIndex = 4;
-            koaloaderAllCheckBox.Text = "Koaloader";
-            koaloaderAllCheckBox.CheckedChanged += OnKoaloaderAllCheckBoxChanged;
+            proxyAllCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            proxyAllCheckBox.AutoSize = true;
+            proxyAllCheckBox.Enabled = false;
+            proxyAllCheckBox.Location = new System.Drawing.Point(2, 0);
+            proxyAllCheckBox.Margin = new Padding(2, 0, 0, 0);
+            proxyAllCheckBox.Name = "proxyAllCheckBox";
+            proxyAllCheckBox.Size = new System.Drawing.Size(73, 19);
+            proxyAllCheckBox.TabIndex = 4;
+            proxyAllCheckBox.Text = "代理全部";
+            proxyAllCheckBox.CheckedChanged += OnProxyAllCheckBoxChanged;
             // 
             // noneFoundLabel
             // 
             noneFoundLabel.Dock = DockStyle.Fill;
             noneFoundLabel.Location = new System.Drawing.Point(3, 19);
             noneFoundLabel.Name = "noneFoundLabel";
-            noneFoundLabel.Size = new System.Drawing.Size(554, 187);
+            noneFoundLabel.Size = new System.Drawing.Size(604, 265);
             noneFoundLabel.TabIndex = 1002;
-            noneFoundLabel.Text = "找不到适配的程序或游戏！";
+            noneFoundLabel.Text = "No applicable programs nor games were found on your computer!";
             noneFoundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             noneFoundLabel.Visible = false;
             // 
@@ -140,7 +137,7 @@ namespace CreamInstaller.Forms
             blockedGamesFlowPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             blockedGamesFlowPanel.Controls.Add(blockedGamesCheckBox);
             blockedGamesFlowPanel.Controls.Add(blockProtectedHelpButton);
-            blockedGamesFlowPanel.Location = new System.Drawing.Point(125, -1);
+            blockedGamesFlowPanel.Location = new System.Drawing.Point(150, -1);
             blockedGamesFlowPanel.Margin = new Padding(0);
             blockedGamesFlowPanel.Name = "blockedGamesFlowPanel";
             blockedGamesFlowPanel.Size = new System.Drawing.Size(170, 19);
@@ -158,14 +155,14 @@ namespace CreamInstaller.Forms
             blockedGamesCheckBox.Name = "blockedGamesCheckBox";
             blockedGamesCheckBox.Size = new System.Drawing.Size(148, 19);
             blockedGamesCheckBox.TabIndex = 1;
-            blockedGamesCheckBox.Text = "被保护的游戏(反作弊或者第三方加密/DRM)";
+            blockedGamesCheckBox.Text = "黑名单游戏";
             blockedGamesCheckBox.UseVisualStyleBackColor = true;
             blockedGamesCheckBox.CheckedChanged += OnBlockProtectedGamesCheckBoxChanged;
             // 
             // blockProtectedHelpButton
             // 
             blockProtectedHelpButton.Enabled = false;
-            blockProtectedHelpButton.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            blockProtectedHelpButton.Font = new System.Drawing.Font("Segoe UI", 7F);
             blockProtectedHelpButton.Location = new System.Drawing.Point(150, 0);
             blockProtectedHelpButton.Margin = new Padding(0, 0, 1, 0);
             blockProtectedHelpButton.Name = "blockProtectedHelpButton";
@@ -175,26 +172,13 @@ namespace CreamInstaller.Forms
             blockProtectedHelpButton.UseVisualStyleBackColor = true;
             blockProtectedHelpButton.Click += OnBlockProtectedGamesHelpButtonClicked;
             // 
-            // selectionTreeView
-            // 
-            selectionTreeView.BackColor = System.Drawing.SystemColors.Control;
-            selectionTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            selectionTreeView.CheckBoxes = true;
-            selectionTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            selectionTreeView.Enabled = false;
-            selectionTreeView.FullRowSelect = true;
-            selectionTreeView.Location = new System.Drawing.Point(3, 19);
-            selectionTreeView.Name = "selectionTreeView";
-            selectionTreeView.Size = new System.Drawing.Size(554, 187);
-            selectionTreeView.TabIndex = 1001;
-            // 
             // allCheckBoxLayoutPanel
             // 
             allCheckBoxLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             allCheckBoxLayoutPanel.AutoSize = true;
             allCheckBoxLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             allCheckBoxLayoutPanel.Controls.Add(allCheckBox);
-            allCheckBoxLayoutPanel.Location = new System.Drawing.Point(512, -1);
+            allCheckBoxLayoutPanel.Location = new System.Drawing.Point(562, -1);
             allCheckBoxLayoutPanel.Margin = new Padding(0);
             allCheckBoxLayoutPanel.Name = "allCheckBoxLayoutPanel";
             allCheckBoxLayoutPanel.Size = new System.Drawing.Size(42, 19);
@@ -213,25 +197,39 @@ namespace CreamInstaller.Forms
             allCheckBox.Name = "allCheckBox";
             allCheckBox.Size = new System.Drawing.Size(40, 19);
             allCheckBox.TabIndex = 4;
-            allCheckBox.Text = "全部";
+            allCheckBox.Text = "全选";
             allCheckBox.CheckedChanged += OnAllCheckBoxChanged;
+            // 
+            // selectionTreeView
+            // 
+            selectionTreeView.BackColor = System.Drawing.SystemColors.Control;
+            selectionTreeView.BorderStyle = BorderStyle.None;
+            selectionTreeView.CheckBoxes = true;
+            selectionTreeView.Dock = DockStyle.Fill;
+            selectionTreeView.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            selectionTreeView.Enabled = false;
+            selectionTreeView.FullRowSelect = true;
+            selectionTreeView.Location = new System.Drawing.Point(3, 19);
+            selectionTreeView.Name = "selectionTreeView";
+            selectionTreeView.Size = new System.Drawing.Size(604, 265);
+            selectionTreeView.TabIndex = 1001;
             // 
             // progressBar
             // 
             progressBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            progressBar.Location = new System.Drawing.Point(12, 266);
+            progressBar.Location = new System.Drawing.Point(12, 344);
             progressBar.Name = "progressBar";
-            progressBar.Size = new System.Drawing.Size(560, 23);
+            progressBar.Size = new System.Drawing.Size(610, 23);
             progressBar.TabIndex = 9;
             // 
             // progressLabel
             // 
             progressLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            progressLabel.Location = new System.Drawing.Point(12, 224);
+            progressLabel.Location = new System.Drawing.Point(12, 302);
             progressLabel.Name = "progressLabel";
-            progressLabel.Size = new System.Drawing.Size(560, 15);
+            progressLabel.Size = new System.Drawing.Size(610, 15);
             progressLabel.TabIndex = 10;
-            progressLabel.Text = "收集并缓存适配的游戏及其DLC . . . 0%";
+            progressLabel.Text = "正在查找游戏DLC . . . 0%";
             // 
             // scanButton
             // 
@@ -239,12 +237,12 @@ namespace CreamInstaller.Forms
             scanButton.AutoSize = true;
             scanButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             scanButton.Enabled = false;
-            scanButton.Location = new System.Drawing.Point(250, 326);
+            scanButton.Location = new System.Drawing.Point(186, 376);
             scanButton.Name = "scanButton";
-            scanButton.Padding = new Padding(12, 0, 12, 0);
-            scanButton.Size = new System.Drawing.Size(78, 25);
+            scanButton.Padding = new Padding(3, 0, 3, 0);
+            scanButton.Size = new System.Drawing.Size(60, 25);
             scanButton.TabIndex = 10002;
-            scanButton.Text = "扫描";
+            scanButton.Text = "选择游戏";
             scanButton.UseVisualStyleBackColor = true;
             scanButton.Click += OnScan;
             // 
@@ -254,10 +252,10 @@ namespace CreamInstaller.Forms
             uninstallButton.AutoSize = true;
             uninstallButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             uninstallButton.Enabled = false;
-            uninstallButton.Location = new System.Drawing.Point(334, 326);
+            uninstallButton.Location = new System.Drawing.Point(420, 376);
             uninstallButton.Name = "uninstallButton";
-            uninstallButton.Padding = new Padding(12, 0, 12, 0);
-            uninstallButton.Size = new System.Drawing.Size(87, 25);
+            uninstallButton.Padding = new Padding(3, 0, 3, 0);
+            uninstallButton.Size = new System.Drawing.Size(69, 25);
             uninstallButton.TabIndex = 10001;
             uninstallButton.Text = "卸载";
             uninstallButton.UseVisualStyleBackColor = true;
@@ -266,28 +264,28 @@ namespace CreamInstaller.Forms
             // progressLabelGames
             // 
             progressLabelGames.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            progressLabelGames.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            progressLabelGames.Location = new System.Drawing.Point(12, 239);
+            progressLabelGames.Font = new System.Drawing.Font("Segoe UI", 7F);
+            progressLabelGames.Location = new System.Drawing.Point(12, 317);
             progressLabelGames.Name = "progressLabelGames";
-            progressLabelGames.Size = new System.Drawing.Size(560, 12);
+            progressLabelGames.Size = new System.Drawing.Size(610, 12);
             progressLabelGames.TabIndex = 11;
-            progressLabelGames.Text = "正在搜索 (2): 游戏 1, 游戏 2";
+            progressLabelGames.Text = " games (2): Game 1, Game 2";
             // 
             // progressLabelDLCs
             // 
             progressLabelDLCs.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            progressLabelDLCs.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            progressLabelDLCs.Location = new System.Drawing.Point(12, 251);
+            progressLabelDLCs.Font = new System.Drawing.Font("Segoe UI", 7F);
+            progressLabelDLCs.Location = new System.Drawing.Point(12, 329);
             progressLabelDLCs.Name = "progressLabelDLCs";
-            progressLabelDLCs.Size = new System.Drawing.Size(560, 12);
+            progressLabelDLCs.Size = new System.Drawing.Size(610, 12);
             progressLabelDLCs.TabIndex = 12;
-            progressLabelDLCs.Text = "正在记录 DLC (2): 123456, 654321";
+            progressLabelDLCs.Text = " DLC (2): 123456, 654321";
             // 
             // sortCheckBox
             // 
             sortCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             sortCheckBox.AutoSize = true;
-            sortCheckBox.Location = new System.Drawing.Point(125, 330);
+            sortCheckBox.Location = new System.Drawing.Point(84, 380);
             sortCheckBox.Margin = new Padding(3, 0, 0, 0);
             sortCheckBox.Name = "sortCheckBox";
             sortCheckBox.Size = new System.Drawing.Size(98, 19);
@@ -301,13 +299,14 @@ namespace CreamInstaller.Forms
             saveButton.AutoSize = true;
             saveButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             saveButton.Enabled = false;
-            saveButton.Location = new System.Drawing.Point(432, 295);
+            saveButton.Location = new System.Drawing.Point(51, 0);
+            saveButton.Margin = new Padding(6, 0, 6, 0);
             saveButton.Name = "saveButton";
-            saveButton.Size = new System.Drawing.Size(66, 25);
+            saveButton.Size = new System.Drawing.Size(41, 25);
             saveButton.TabIndex = 10006;
-            saveButton.Text = "保存 DLC";
+            saveButton.Text = "保存";
             saveButton.UseVisualStyleBackColor = true;
-            saveButton.Click += OnSaveDlc;
+            saveButton.Click += OnSaveSelections;
             // 
             // loadButton
             // 
@@ -315,27 +314,14 @@ namespace CreamInstaller.Forms
             loadButton.AutoSize = true;
             loadButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             loadButton.Enabled = false;
-            loadButton.Location = new System.Drawing.Point(504, 295);
+            loadButton.Location = new System.Drawing.Point(98, 0);
+            loadButton.Margin = new Padding(0);
             loadButton.Name = "loadButton";
-            loadButton.Size = new System.Drawing.Size(68, 25);
+            loadButton.Size = new System.Drawing.Size(43, 25);
             loadButton.TabIndex = 10005;
-            loadButton.Text = "加载 DLC";
+            loadButton.Text = "加载";
             loadButton.UseVisualStyleBackColor = true;
-            loadButton.Click += OnLoadDlc;
-            // 
-            // resetKoaloaderButton
-            // 
-            resetKoaloaderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            resetKoaloaderButton.AutoSize = true;
-            resetKoaloaderButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            resetKoaloaderButton.Enabled = false;
-            resetKoaloaderButton.Location = new System.Drawing.Point(12, 295);
-            resetKoaloaderButton.Name = "resetKoaloaderButton";
-            resetKoaloaderButton.Size = new System.Drawing.Size(101, 25);
-            resetKoaloaderButton.TabIndex = 10010;
-            resetKoaloaderButton.Text = "重载 Koaloader";
-            resetKoaloaderButton.UseVisualStyleBackColor = true;
-            resetKoaloaderButton.Click += OnResetKoaloader;
+            loadButton.Click += OnLoadSelections;
             // 
             // resetButton
             // 
@@ -343,55 +329,36 @@ namespace CreamInstaller.Forms
             resetButton.AutoSize = true;
             resetButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             resetButton.Enabled = false;
-            resetButton.Location = new System.Drawing.Point(356, 295);
+            resetButton.Location = new System.Drawing.Point(0, 0);
+            resetButton.Margin = new Padding(0);
             resetButton.Name = "resetButton";
-            resetButton.Size = new System.Drawing.Size(70, 25);
+            resetButton.Size = new System.Drawing.Size(45, 25);
             resetButton.TabIndex = 10007;
-            resetButton.Text = "重载 DLC";
+            resetButton.Text = "刷新";
             resetButton.UseVisualStyleBackColor = true;
-            resetButton.Click += OnResetDlc;
+            resetButton.Click += OnResetSelections;
             // 
-            // saveKoaloaderButton
+            // saveFlowPanel
             // 
-            saveKoaloaderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            saveKoaloaderButton.AutoSize = true;
-            saveKoaloaderButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            saveKoaloaderButton.Enabled = false;
-            saveKoaloaderButton.Location = new System.Drawing.Point(119, 295);
-            saveKoaloaderButton.Name = "saveKoaloaderButton";
-            saveKoaloaderButton.Size = new System.Drawing.Size(97, 25);
-            saveKoaloaderButton.TabIndex = 10009;
-            saveKoaloaderButton.Text = "保存 Koaloader";
-            saveKoaloaderButton.UseVisualStyleBackColor = true;
-            saveKoaloaderButton.Click += OnSaveKoaloader;
-            // 
-            // loadKoaloaderButton
-            // 
-            loadKoaloaderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            loadKoaloaderButton.AutoSize = true;
-            loadKoaloaderButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            loadKoaloaderButton.Enabled = false;
-            loadKoaloaderButton.Location = new System.Drawing.Point(222, 295);
-            loadKoaloaderButton.Name = "loadKoaloaderButton";
-            loadKoaloaderButton.Size = new System.Drawing.Size(99, 25);
-            loadKoaloaderButton.TabIndex = 10008;
-            loadKoaloaderButton.Text = "加载 Koaloader";
-            loadKoaloaderButton.UseVisualStyleBackColor = true;
-            loadKoaloaderButton.Click += OnLoadKoaloader;
+            saveFlowPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            saveFlowPanel.AutoSize = true;
+            saveFlowPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            saveFlowPanel.Controls.Add(resetButton);
+            saveFlowPanel.Controls.Add(saveButton);
+            saveFlowPanel.Controls.Add(loadButton);
+            saveFlowPanel.Location = new System.Drawing.Point(263, 376);
+            saveFlowPanel.Name = "saveFlowPanel";
+            saveFlowPanel.Size = new System.Drawing.Size(141, 25);
+            saveFlowPanel.TabIndex = 10008;
+            saveFlowPanel.WrapContents = false;
             // 
             // SelectForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new System.Drawing.Size(584, 361);
-            Controls.Add(loadKoaloaderButton);
-            Controls.Add(saveKoaloaderButton);
-            Controls.Add(resetButton);
-            Controls.Add(resetKoaloaderButton);
-            Controls.Add(loadButton);
-            Controls.Add(saveButton);
+            ClientSize = new System.Drawing.Size(634, 411);
+            Controls.Add(saveFlowPanel);
             Controls.Add(sortCheckBox);
             Controls.Add(progressLabelDLCs);
             Controls.Add(progressLabelGames);
@@ -408,16 +375,18 @@ namespace CreamInstaller.Forms
             MinimizeBox = false;
             Name = "SelectForm";
             StartPosition = FormStartPosition.Manual;
-            Text = "选择";
+            Text = "SelectForm";
             Load += OnLoad;
             programsGroupBox.ResumeLayout(false);
             programsGroupBox.PerformLayout();
-            koaloaderFlowPanel.ResumeLayout(false);
-            koaloaderFlowPanel.PerformLayout();
+            proxyFlowPanel.ResumeLayout(false);
+            proxyFlowPanel.PerformLayout();
             blockedGamesFlowPanel.ResumeLayout(false);
             blockedGamesFlowPanel.PerformLayout();
             allCheckBoxLayoutPanel.ResumeLayout(false);
             allCheckBoxLayoutPanel.PerformLayout();
+            saveFlowPanel.ResumeLayout(false);
+            saveFlowPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -441,14 +410,12 @@ namespace CreamInstaller.Forms
         private Label progressLabelGames;
         private Label progressLabelDLCs;
         private CheckBox sortCheckBox;
-        private FlowLayoutPanel koaloaderFlowPanel;
-        internal CheckBox koaloaderAllCheckBox;
+        private FlowLayoutPanel proxyFlowPanel;
+        internal CheckBox proxyAllCheckBox;
         private Button saveButton;
         private Button loadButton;
-        private Button resetKoaloaderButton;
         private Button resetButton;
-        private Button saveKoaloaderButton;
-        private Button loadKoaloaderButton;
+        private FlowLayoutPanel saveFlowPanel;
     }
 }
 

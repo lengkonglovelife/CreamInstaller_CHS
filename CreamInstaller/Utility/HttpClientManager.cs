@@ -44,12 +44,12 @@ internal static class HttpClientManager
             if (e.StatusCode != HttpStatusCode.TooManyRequests)
             {
 #if DEBUG
-                DebugForm.Current.Log("获取请求失败 " + url + ": " + e, LogTextBox.Warning);
+                DebugForm.Current.Log("Get request failed to " + url + ": " + e, LogTextBox.Warning);
 #endif
                 return null;
             }
 #if DEBUG
-            DebugForm.Current.Log("请求过多 " + url, LogTextBox.Error);
+            DebugForm.Current.Log("Too many requests to " + url, LogTextBox.Error);
 #endif
             // do something special?
             return null;
@@ -57,7 +57,7 @@ internal static class HttpClientManager
 #if DEBUG
         catch (Exception e)
         {
-            DebugForm.Current.Log("获取请求失败 " + url + ": " + e, LogTextBox.Warning);
+            DebugForm.Current.Log("Get request failed to " + url + ": " + e, LogTextBox.Warning);
             return null;
         }
 #else
