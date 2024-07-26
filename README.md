@@ -7,7 +7,7 @@ CreamInstalle official:https://github.com/pointfeev/CreamInstaller
 我不是原作者，任何代码问题别来我这边提！谢谢！
 
 ### CreamInstaller：一个DLC解锁器。
-![程序预览图](https://img2.imgtp.com/2024/04/28/yGVho5it.png)
+![程序预览图]([https://img2.imgtp.com/2024/04/28/yGVho5it.png](https://pic.imge.cc/2024/07/26/66a397ada3d0b.png))
 
 ###### **注意：** 这只是预览图； 这不是支持的游戏或配置的列表！
 
